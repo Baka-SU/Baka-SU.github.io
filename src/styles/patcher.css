@@ -1,0 +1,346 @@
+/**
+ * Baka-SU patcher
+ * Used by Patcher.vue.
+ * Neutral surfaces, hairline borders, tight type, one accent.
+ * Light/dark via the shared Astro theme variables.
+ */
+
+.pt {
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-black) 4%, transparent),
+    0 8px 24px color-mix(in srgb, var(--color-black) 6%, transparent);
+  overflow: hidden;
+}
+
+.pt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pt-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.pt-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-white) 6%, transparent),
+    0 1px 2px color-mix(in srgb, var(--color-black) 5%, transparent);
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.pt-pill .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--faint);
+  flex-shrink: 0;
+}
+.pt-pill.ready {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--color-green-600) 45%, transparent);
+  color: var(--color-green-700);
+}
+.pt-pill.ready .dot {
+  background: var(--color-green-600);
+}
+.dark .pt-pill.ready {
+  color: var(--color-green-400);
+  border-color: color-mix(in srgb, var(--color-green-400) 45%, transparent);
+}
+.dark .pt-pill.ready .dot {
+  background: var(--color-green-400);
+}
+.pt-pill.busy .dot {
+  background: var(--accent);
+  animation: pt-blink 1.2s ease-in-out infinite;
+}
+@keyframes pt-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.pt-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+}
+
+.pt-desc {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Dropzone: <label> wrapping a hidden file input */
+.pt-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px 20px;
+  border: 1px dashed var(--faint);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.pt-drop:hover {
+  border-color: var(--muted);
+}
+.pt-drop:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.pt-drop.dragging {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--accent-soft);
+}
+.pt-drop.disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.pt-drop input {
+  display: none;
+}
+
+.pt-drop-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-black) 5%, transparent);
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--text);
+}
+.pt-drop.dragging .pt-drop-icon {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.pt-drop-icon .ok {
+  color: var(--color-green-600);
+}
+.pt-spin-icon {
+  display: inline-block;
+  animation: pt-spin 0.9s linear infinite;
+}
+@keyframes pt-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pt-drop-hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.pt-drop-sub {
+  font-size: 0.78rem;
+  color: var(--faint);
+}
+
+.pt-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 8px 8px 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 0.84rem;
+  color: var(--text);
+}
+.pt-file .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 550;
+}
+.pt-file .size {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 0.74rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.pt-file button {
+  flex-shrink: 0;
+  background: none;
+  border: 0;
+  border-radius: 6px;
+  color: var(--faint);
+  font-size: 1rem;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+.pt-file button:hover {
+  background: var(--color-red-50);
+  color: var(--color-red-600);
+}
+
+/* KMI select */
+.pt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pt-field > span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.pt-field select {
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.88rem;
+}
+.pt-field select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+/* Determinate progress — width only ever reflects worker-reported percent */
+.pt-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pt-track {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.pt-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: var(--text);
+  transition: width 0.2s ease;
+}
+.pt-fill.error {
+  background: var(--color-red-600);
+}
+.pt-fill.done {
+  background: var(--color-green-600);
+}
+.pt-pct {
+  min-width: 44px;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.pt-status {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.pt-status.error {
+  color: var(--color-red-600);
+}
+
+.pt-logs {
+  margin: 0;
+}
+.pt-logs summary {
+  font-size: 0.8rem;
+  color: var(--faint);
+  cursor: pointer;
+}
+.pt-logs summary:hover {
+  color: var(--text);
+}
+.pt-logs pre {
+  max-height: 220px;
+  overflow: auto;
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+}
+
+.pt-foot {
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.pt-warn {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pt-pill.busy .dot,
+  .pt-spin-icon {
+    animation: none;
+  }
+  .pt-fill {
+    transition: none;
+  }
+}

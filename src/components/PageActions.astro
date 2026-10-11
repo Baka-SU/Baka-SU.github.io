@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import type { Language } from '../lib/navigation';
+const { path, lang } = Astro.props as { path: string; lang: Language };
+const zh = lang === 'zh';
+const route = lang === 'zh' ? `/zh-Hans${path === '/' ? '/index' : path}` : path === '/' ? '/index' : path;
+const markdown = `${route}.md`;
+---
+<div class="flex shrink-0 items-center gap-0" data-page-actions data-pagefind-ignore>
+  <button type="button" data-copy-page data-markdown={markdown} class="inline-flex h-8 items-center gap-2 rounded-l-lg border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-900"><Icon name="copy" size={14} /><span aria-live="polite">{zh ? '复制 Markdown' : 'Copy Markdown'}</span></button>
+  <details class="relative" data-page-menu><summary class="flex h-8 cursor-pointer list-none items-center rounded-r-lg border border-l-0 border-zinc-200 px-2 text-zinc-500 hover:bg-zinc-50 [&::-webkit-details-marker]:hidden dark:border-zinc-800 dark:hover:bg-zinc-900" aria-label={zh ? '更多页面选项' : 'More page options'}><Icon name="chevron-down" size={14} /></summary><div class="absolute right-0 top-10 z-20 w-52 rounded-xl border border-zinc-200 bg-white p-1.5 text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-900"><a class="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href={markdown} target="_blank"><Icon name="file-text" size={16} />{zh ? '查看 Markdown' : 'View Markdown'}</a><a class="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href={markdown} download><Icon name="download" size={16} />{zh ? '下载页面' : 'Download page'}</a><a class="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" href="/llms.txt" target="_blank"><Icon name="pencil-ai" size={16} />{zh ? 'AI 文档索引' : 'AI documentation index'}</a></div></details>
+</div>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-page]').forEach(button => {
+    const label = button.querySelector('span')!; const original = label.textContent;
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      try { const response = await fetch(button.dataset.markdown!); if (!response.ok) throw new Error('Markdown unavailable'); await navigator.clipboard.writeText(await response.text()); label.textContent = document.documentElement.lang.startsWith('zh') ? '已复制' : 'Copied'; }
+      catch { label.textContent = document.documentElement.lang.startsWith('zh') ? '查看 Markdown' : 'View Markdown'; window.open(button.dataset.markdown, '_blank', 'noopener'); }
+      finally { button.disabled = false; setTimeout(() => label.textContent = original, 2000); }
+    });
+  });
+  document.addEventListener('click', event => document.querySelectorAll<HTMLDetailsElement>('[data-page-menu]').forEach(menu => { if (!menu.contains(event.target as Node)) menu.open = false; }));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') document.querySelectorAll<HTMLDetailsElement>('[data-page-menu][open]').forEach(menu => { menu.open = false; menu.querySelector('summary')?.focus(); }); });
+</script>

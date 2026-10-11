@@ -1,0 +1,11 @@
+---
+import { navigationLink, navigationIdle, navigationHeading } from '../lib/navigation-styles';
+interface Props { headings: { depth: number; slug: string; text: string }[]; label: string }
+const { headings, label } = Astro.props;
+---
+<nav aria-label={label} data-toc class="max-h-[65dvh] overflow-y-auto overscroll-contain">
+  <h2 class={navigationHeading}>{label}</h2>
+  <ul class="ml-3 border-l border-zinc-200 dark:border-zinc-800">
+    {headings.map(heading => <li><a href={`#${heading.slug}`} data-toc-link class:list={[navigationLink, navigationIdle, 'break-words rounded-none border-l-2 border-transparent -ml-px aria-[current=location]:border-sky-600 aria-[current=location]:bg-sky-50 aria-[current=location]:font-medium aria-[current=location]:text-sky-600 dark:aria-[current=location]:border-sky-400 dark:aria-[current=location]:bg-sky-950/50 dark:aria-[current=location]:text-sky-400', heading.depth===2?'pl-4':heading.depth===3?'pl-7':'pl-10']}>{heading.text.replace(/<span\b[^>]*class=["'][^"']*badge[^"']*["'][^>]*>[\s\S]*?<\/span>/g,'').replace(/<[^>]+>/g,'').replace(/\s+(?:[\d.]+[+-]\s+)?(?:Conditionally )?Required$/,'').trim()}</a></li>)}
+  </ul>
+</nav>

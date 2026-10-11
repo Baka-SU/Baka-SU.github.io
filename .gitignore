@@ -97,12 +97,6 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
-.vuepress/dist
-
-# vuepress v2.x temp and cache directory
-.temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -136,4 +130,9 @@ tools/gki-lkm-patcher/target/
 
 # wasm (built by CI via wasm-pack, never committed)
 *.wasm
-docs/.vitepress/theme/wasm/
+src/wasm/
+
+# Astro generated content and caches
+.astro/
+.generated/
+.firecrawl/

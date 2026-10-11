@@ -1,0 +1,389 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --font-sans:
+    "Inter Variable", Inter, "Noto Sans SC Variable", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono:
+    "JetBrains Mono Variable", "Noto Sans SC Variable", ui-monospace, SFMono-Regular, "PingFang SC",
+    "Microsoft YaHei", monospace;
+}
+:root {
+  --bg: var(--color-white);
+  --surface: var(--color-zinc-50);
+  --surface-hover: var(--color-zinc-100);
+  --text: var(--color-zinc-800);
+  --muted: var(--color-zinc-600);
+  --faint: var(--color-zinc-500);
+  --line: var(--color-zinc-200);
+  --strong-line: var(--color-zinc-300);
+  --accent: var(--color-sky-600);
+  --accent-soft: var(--color-sky-50);
+}
+.dark {
+  --bg: var(--color-zinc-950);
+  --surface: var(--color-zinc-900);
+  --surface-hover: var(--color-zinc-800);
+  --text: var(--color-zinc-100);
+  --muted: var(--color-zinc-300);
+  --faint: var(--color-zinc-400);
+  --line: var(--color-zinc-800);
+  --strong-line: var(--color-zinc-700);
+  --accent: var(--color-sky-400);
+  --accent-soft: var(--color-sky-950);
+  color-scheme: dark;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 128px;
+  scrollbar-gutter: stable;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+@layer base {
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+  svg {
+    flex-shrink: 0;
+  }
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+::selection {
+  background: var(--accent-soft);
+}
+[hidden] {
+  display: none !important;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  @apply fixed top-2 left-3 z-[200] -translate-y-40 rounded bg-sky-700 px-4 py-2 text-white focus:translate-y-0;
+}
+.icon-button {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-md border-0 bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800;
+}
+.theme-moon,
+.dark .theme-sun {
+  display: none;
+}
+.dark .theme-moon {
+  display: block;
+}
+.button {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full border px-6 py-2.5 text-sm font-semibold transition-colors;
+}
+.button-primary {
+  @apply border-sky-600 bg-sky-600 text-white hover:border-sky-500 hover:bg-sky-500 dark:border-sky-500 dark:bg-sky-500 dark:hover:border-sky-400 dark:hover:bg-sky-400;
+}
+.button-secondary {
+  @apply border-zinc-200 bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700;
+}
+.text-link {
+  @apply inline-flex items-center gap-2 text-sm font-medium text-sky-600 dark:text-sky-400;
+}
+.prose {
+  @apply text-base leading-7;
+  overflow-wrap: break-word;
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+.prose p {
+  @apply my-4;
+}
+.prose > p:first-child {
+  margin-top: 0;
+}
+.prose h2 {
+  @apply mt-10 mb-4 text-2xl leading-8 font-semibold tracking-tight;
+  position: relative;
+}
+.prose h3 {
+  @apply mt-8 mb-4 text-xl leading-7 font-semibold tracking-tight;
+}
+.prose h4 {
+  @apply mt-6 mb-4 text-base font-semibold;
+}
+.prose h5 {
+  @apply mt-6 mb-3 text-sm font-semibold;
+}
+.prose a:not(.button):not(.heading-anchor) {
+  @apply font-medium text-sky-600 underline decoration-transparent underline-offset-4 hover:decoration-sky-500 dark:text-sky-400;
+}
+.prose strong {
+  @apply font-semibold;
+}
+.prose ul {
+  @apply my-4 list-disc pl-5;
+}
+.prose ol {
+  @apply my-4 list-decimal pl-5;
+}
+.prose li {
+  @apply my-2 pl-1;
+}
+.prose blockquote {
+  @apply my-6 border-l-2 border-zinc-300 pl-4 text-zinc-500 dark:border-zinc-600 dark:text-zinc-400;
+}
+.prose :not(pre) > code {
+  @apply rounded border border-zinc-200 bg-zinc-100 px-1.5 py-0.5 font-mono text-sm text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300;
+}
+.prose pre {
+  @apply relative my-5 overflow-auto rounded-xl border border-zinc-200 px-6 py-5 font-mono text-sm leading-6 dark:border-zinc-800;
+  background: var(--surface) !important;
+  max-height: 720px;
+}
+.prose pre code {
+  font: inherit;
+}
+.prose pre .line {
+  min-height: 1em;
+}
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+}
+.dark .astro-code {
+  background: var(--surface) !important;
+}
+.code-copy {
+  @apply inline-flex items-center gap-1.5 absolute top-2.5 right-2.5 rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400;
+  font-family: var(--font-sans);
+}
+.code-frame {
+  position: relative;
+}
+.code-frame > pre {
+  padding-top: 48px;
+}
+.code-frame > .code-copy {
+  opacity: 1;
+  transition: color 0.15s;
+}
+.code-frame:hover > .code-copy,
+.code-frame:focus-within > .code-copy {
+  opacity: 1;
+}
+.code-language {
+  @apply absolute top-3.5 left-6 text-xs text-zinc-500 dark:text-zinc-400;
+}
+.prose mark {
+  @apply rounded-sm bg-yellow-100 px-0.5 text-inherit dark:bg-yellow-950;
+}
+.prose hr {
+  @apply my-8 border-0 border-t border-zinc-200 dark:border-zinc-800;
+}
+.callout {
+  @apply my-4 rounded-lg border border-transparent bg-zinc-100 px-5 py-4 text-sm leading-6 dark:bg-zinc-900;
+}
+.callout p {
+  @apply mt-2 mb-0;
+}
+.callout .callout-title {
+  @apply m-0 font-semibold;
+}
+.callout-tip {
+  @apply bg-sky-50 dark:bg-sky-950/50;
+}
+.callout-warning {
+  @apply bg-yellow-50 dark:bg-yellow-950/40;
+}
+.callout-danger {
+  @apply bg-red-50 dark:bg-red-950/40;
+}
+.callout :not(pre) > code {
+  @apply text-xs;
+}
+.callout-tip .callout-title {
+  @apply text-sky-700 dark:text-sky-300;
+}
+.callout-warning .callout-title {
+  @apply text-yellow-800 dark:text-yellow-300;
+}
+.callout-danger .callout-title {
+  @apply text-red-700 dark:text-red-300;
+}
+.badge {
+  @apply inline-block rounded-md border border-zinc-200 bg-zinc-100 px-2 py-0.5 align-middle text-xs font-semibold text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300;
+  font-family: var(--font-sans);
+}
+.badge-danger {
+  @apply border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300;
+}
+.badge-warning {
+  @apply border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-900 dark:bg-yellow-950 dark:text-yellow-300;
+}
+.doc-details {
+  @apply my-5 rounded-lg bg-zinc-100 px-5 py-4 text-sm dark:bg-zinc-900;
+}
+.doc-details summary {
+  @apply cursor-pointer font-semibold;
+}
+.code-group {
+  @apply my-5 overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900;
+}
+.code-group .code-frame > pre {
+  @apply m-0 rounded-none border-0;
+}
+.code-tabs {
+  @apply flex overflow-x-auto border-b border-zinc-200 px-3 dark:border-zinc-800;
+}
+.code-tabs button {
+  @apply shrink-0 border-0 border-b-2 border-transparent bg-transparent px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400;
+}
+.code-tabs button[aria-selected="true"] {
+  @apply border-sky-600 text-sky-600 dark:border-sky-400 dark:text-sky-400;
+}
+.code-panel-label {
+  @apply px-5 text-xs font-medium text-zinc-500;
+}
+.code-group.enhanced .code-panel-label {
+  display: none;
+}
+.table-scroll {
+  @apply my-5 overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800;
+}
+.prose table {
+  @apply w-full border-collapse text-sm;
+}
+.prose th {
+  @apply bg-sky-50 px-4 py-3 text-left font-semibold text-sky-700 dark:bg-sky-950 dark:text-sky-300;
+}
+.prose td {
+  @apply border-t border-zinc-200 px-4 py-3 dark:border-zinc-800;
+  min-width: 140px;
+}
+.prose tr:nth-child(even) > td {
+  @apply bg-zinc-50 dark:bg-zinc-900;
+}
+.directory-search {
+  @apply flex flex-col gap-2 text-sm font-medium;
+}
+.directory-search input {
+  @apply w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-800 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100;
+}
+.directory-count {
+  @apply text-xs text-zinc-500 dark:text-zinc-400;
+}
+.device-directory {
+  @apply my-7;
+}
+.not-found {
+  @apply mx-auto max-w-3xl px-6 py-28 text-center;
+}
+.not-found h1 {
+  @apply my-6 text-4xl font-semibold tracking-tight;
+}
+.not-found p {
+  @apply text-base leading-7 text-zinc-500 dark:text-zinc-400;
+}
+.not-found .hero-actions {
+  @apply mt-6 flex justify-center gap-3;
+}
+.eyebrow {
+  @apply font-mono text-xs tracking-wide text-zinc-500;
+}
+.search-dialog {
+  @apply m-auto mt-[15vh] w-[600px] max-w-[calc(100vw-32px)] rounded-xl border border-zinc-300 bg-white p-0 text-zinc-800 shadow-2xl dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100;
+}
+.search-dialog::backdrop {
+  background: color-mix(in srgb, var(--color-black) 40%, transparent);
+  backdrop-filter: blur(3px);
+}
+.search-input-row {
+  @apply flex items-center gap-3 border-b border-zinc-200 p-4 dark:border-zinc-800;
+}
+.search-input-row input {
+  @apply min-w-0 flex-1 border-0 bg-transparent p-1 text-base;
+  outline: 0;
+}
+.search-results {
+  @apply max-h-[50vh] min-h-24 overflow-y-auto p-2;
+}
+.search-hint {
+  @apply m-0 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400;
+}
+.search-result {
+  @apply flex flex-col gap-1 rounded-md p-4 hover:bg-sky-50 focus:bg-sky-50 dark:hover:bg-sky-950 dark:focus:bg-sky-950;
+}
+.search-result strong {
+  @apply text-sm font-semibold;
+}
+.search-result > span {
+  @apply text-xs leading-5 text-zinc-500 dark:text-zinc-400;
+}
+.search-footer {
+  @apply flex justify-between border-t border-zinc-200 bg-zinc-50 px-4 py-3 text-xs text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400;
+}
+.search-footer kbd {
+  @apply mr-1;
+}
+@media (max-width: 560px) {
+  .prose {
+    font-size: 15px;
+  }
+  .prose pre {
+    padding: 20px 16px;
+    font-size: 14px;
+  }
+  .pt-head {
+    flex-wrap: wrap;
+  }
+  .pt-body {
+    padding: 16px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.prose :is(h2, h3, h4):hover .heading-anchor {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .code-frame > .code-copy {
+    opacity: 1;
+  }
+}
+
+.badge-tip {
+  @apply border-sky-200 bg-sky-50 text-sky-600 dark:border-sky-900 dark:bg-sky-950 dark:text-sky-400;
+}

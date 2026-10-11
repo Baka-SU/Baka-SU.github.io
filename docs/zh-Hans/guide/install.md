@@ -1,13 +1,17 @@
-# 安装 ReSukiSU {#install}
+---
+sidebar: { "label": "安装", "order": 0, "group": "Get started", "collapsed": false }
+---
+
+# 安装 BakaSU {#install}
 
 ::: tip
 我们默认你已经拥有一定的刷机基础能力，和基本的救砖知识，所以这一部分的文档并不会写得很详细
 :::
 
-## 下载ReSukiSU管理器 {#Get-manager}
+## 下载BakaSU管理器 {#Get-manager}
 
 ::: tip 仍在开发中...
-因为 ReSukiSU 的管理器还有很多未完成的东西，所以ReSukiSU暂时不会发布至GitHub Release，但你可以通过[`nightly.link`](https://nightly.link/ReSukiSU/ReSukiSU/workflows/build-manager/main/Manager-release.zip) 或者 [`GitHub Action`](https://github.com/ReSukiSU/ReSukiSU/actions/workflows/build-manager.yml?query=branch:main)来获取目前仍在开发中的管理器。
+因为 BakaSU 的管理器还有很多未完成的东西，所以BakaSU暂时不会发布至GitHub Release，但你可以通过[`nightly.link`](https://nightly.link/BakaSU/BakaSU/workflows/build-manager/main/Manager-release.zip) 或者 [`GitHub Action`](https://github.com/BakaSU/BakaSU/actions/workflows/build-manager.yml?query=branch:main)来获取目前仍在开发中的管理器。
 
 (Nightly.link无需登录GitHub账号即可下载文件)
 :::
@@ -18,7 +22,7 @@
 
 ## 安装 {#Installation}
 
-ReSukiSU 提供了以下两种方式来安装 ReSukiSU
+BakaSU 提供了以下两种方式来安装 BakaSU
 
 ### LKM 安装 {#LKM}
 
@@ -28,7 +32,7 @@ ReSukiSU 提供了以下两种方式来安装 ReSukiSU
 
 ### GKI2/GKI1/非GKI内核（AnyKernel3）安装 {#ak3}
 
-ReSukiSU 管理器虽然内置了 `AnyKernel3` 的安装方式，但是在管理器未获得**ROOT权限**时，这个安装方法不会被显示出来。您可能需要以下操作才可使用
+BakaSU 管理器虽然内置了 `AnyKernel3` 的安装方式，但是在管理器未获得**ROOT权限**时，这个安装方法不会被显示出来。您可能需要以下操作才可使用
 
 1.通过 [LKM安装](./install/gki.md#lkm) 获取root后再进行刷入AnyKernel3包
 

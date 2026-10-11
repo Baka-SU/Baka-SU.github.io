@@ -1,16 +1,20 @@
-# How to integrate ReSukiSU {#introduction}
+---
+sidebar: { "label": "Building Kernel", "order": 10, "group": "Get started", "collapsed": true }
+---
+
+# How to integrate BakaSU {#introduction}
 
 ::: info Notes
 This document modified from [KernelSU Official Documentation](https://kernelsu.org)
 :::
 
-ReSukiSU can be integrated into non-GKI kernels and was <mark>backported to 3.4 and earlier</mark> versions.
+BakaSU can be integrated into non-GKI kernels and was <mark>backported to 3.4 and earlier</mark> versions.
 
-Due to the fragmentation of non-GKI kernels, we don't have a universal way to build them; therefore, we cannot provide a non-GKI boot.img. However, you can build the kernel with ReSukiSU integrated on your own.
+Due to the fragmentation of non-GKI kernels, we don't have a universal way to build them; therefore, we cannot provide a non-GKI boot.img. However, you can build the kernel with BakaSU integrated on your own.
 
-First, you should be able to build a bootable kernel from kernel source code. If the kernel isn't open source, then it is difficult to run ReSukiSU for your device.
+First, you should be able to build a bootable kernel from kernel source code. If the kernel isn't open source, then it is difficult to run BakaSU for your device.
 
-If you're able to build a bootable kernel, you can add ReSukiSU into your kernel by following this guide.
+If you're able to build a bootable kernel, you can add BakaSU into your kernel by following this guide.
 
 ## Building Kernel
 
@@ -47,12 +51,12 @@ Starting from Android 13, the kernel is built by `bazel`:
 tools/bazel build --config=fast //common:kernel_aarch64_dist
 ```
 
-## Build kernel with ReSukiSU
+## Build kernel with BakaSU
 
-First, add ReSukiSU to your kernel source tree:
+First, add BakaSU to your kernel source tree:
 
 ```sh
-curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
+curl -LSs "https://raw.githubusercontent.com/BakaSU/BakaSU/main/kernel/setup.sh" | bash
 ```
 
 ### Manual hooks
@@ -63,14 +67,14 @@ Keep in mind that, on some devices, your defconfig may be located at `arch/arm64
 `arch/arm64/configs/...`
 
 ```diff
-+# ReSukiSU
++# BakaSU
 +CONFIG_KSU=y
 +CONFIG_KSU_MANUAL_HOOK=y
 ```
 
 :::
 
-Then,add [ReSukiSU's hooks](manual-integrate.md) into your kernel, and build your kernel again, and ReSukiSU should work correctly.
+Then,add [BakaSU's hooks](manual-integrate.md) into your kernel, and build your kernel again, and BakaSU should work correctly.
 
 ### SUSFS
 
@@ -79,11 +83,10 @@ SUSFS is no longer supported for NonGKI kernels,if you want to use SUSFS on NonG
 :::
 
 ::: danger
-ReSukiSU's SUSFS part of the kernel code is **updated from the SUSFS repository**. If you encounter build errors or boot problems, please CHECK the update log of the SUSFS repository FIRST.
+BakaSU's SUSFS part of the kernel code is **updated from the SUSFS repository**. If you encounter build errors or boot problems, please CHECK the update log of the SUSFS repository FIRST.
 
-if you are sure that ReSukiSU's SUSFS part of the kernel code has not been updated, please report this issue to ReSukiSU.
+if you are sure that BakaSU's SUSFS part of the kernel code has not been updated, please report this issue to BakaSU.
 :::
-
 
 ::: tip
 Keep in mind that, on some devices, your defconfig may be located at `arch/arm64/configs` or in other cases, it may be at `arch/arm64/configs/vendor/your_defconfig`. Regardless of the defconfig you're using, make sure to enable `CONFIG_KSU` with `y` to enable or `n` to disable it. For example, if you choose to enable it, your defconfig should contain the following string：
@@ -91,7 +94,7 @@ Keep in mind that, on some devices, your defconfig may be located at `arch/arm64
 `arch/arm64/configs/...`
 
 ```diff
-+# ReSukiSU
++# BakaSU
 +CONFIG_KSU=y
 +CONFIG_KSU_SUSFS=y
 ```
@@ -99,4 +102,3 @@ Keep in mind that, on some devices, your defconfig may be located at `arch/arm64
 :::
 
 Then, in the [SUSFS repository](https://gitlab.com/simonpunk/susfs4ksu), **choose the branch that matches your kernel version** and apply the **kernel-side patches** as instructed; after making the changes, rebuild the kernel.
-

@@ -1,0 +1,98 @@
+---
+import routes from '../../.generated/routes.json';
+import Icon from '../components/Icon.astro';
+import Header from '../components/Header.astro';
+import Search from '../components/Search.astro';
+import '../styles/global.css';
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import '@fontsource-variable/noto-sans-sc/wght.css';
+import { breadcrumbItems, type Language } from '../lib/navigation';
+interface Props { title: string; description: string; lang?: Language; path?: string; docs?: boolean; noindex?: boolean }
+const { title, description, lang = 'en', path = '/', docs = false, noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site);
+const markdownPath = lang === 'zh' ? `/zh-Hans${path === '/' ? '/index' : path}.md` : `${path === '/' ? '/index' : path}.md`;
+const fullTitle = title === 'BakaSU' ? 'BakaSU — A more stable fork of SukiSU' : `${title} — BakaSU`;
+const breadcrumbs = breadcrumbItems(path, lang);
+const schema = { '@context': 'https://schema.org', '@graph': [
+  { '@type': 'Organization', '@id': 'https://bakasu.org/#organization', name: 'BakaSU', url: 'https://bakasu.org', logo: 'https://bakasu.org/favicon.svg', sameAs: ['https://github.com/Baka-SU'] },
+  { '@type': 'WebSite', '@id': 'https://bakasu.org/#website', name: 'BakaSU', url: 'https://bakasu.org', inLanguage: ['en', 'zh-CN'] },
+  { '@type': 'WebPage', '@id': canonical.href + '#webpage', url: canonical.href, name: fullTitle, description, inLanguage: lang === 'zh' ? 'zh-CN' : 'en', isPartOf: { '@id': 'https://bakasu.org/#website' } },
+  ...(breadcrumbs.length > 1 ? [{ '@type': 'BreadcrumbList', itemListElement: breadcrumbs.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.name,item:new URL(item.path,Astro.site).href})) }] : []),
+  ...(docs ? [{ '@type': 'TechArticle', '@id': canonical.href + '#article', mainEntityOfPage: {'@id':canonical.href+'#webpage'}, author: {'@id':'https://bakasu.org/#organization'}, headline: title, description, url: canonical.href, inLanguage: lang === 'zh' ? 'zh-CN' : 'en', publisher: { '@type': 'Organization', name: 'BakaSU' } }] : []),
+] };
+---
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-CN' : 'en'}>
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title><meta name="description" content={description} /><meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    <link rel="canonical" href={canonical} />
+    {routes.includes(path === '/' ? '/' : path) && <link rel="alternate" hreflang="en" href={new URL(path, Astro.site)} />}
+    {routes.includes(`/zh-Hans${path === '/' ? '' : path}`) && <link rel="alternate" hreflang="zh-CN" href={new URL(`/zh-Hans${path === '/' ? '' : path}`, Astro.site)} />}
+    <link rel="alternate" hreflang="x-default" href={new URL(path, Astro.site)} />
+    {!noindex && <link rel="alternate" type="text/markdown" href={markdownPath} />}
+    <link rel="describedby" href="/llms.txt" type="text/plain" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="oklch(98.5% 0 0)" media="(prefers-color-scheme: light)" /><meta name="theme-color" content="oklch(14.1% 0.005 285.823)" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content={docs ? 'article' : 'website'} /><meta property="og:site_name" content="BakaSU" /><meta property="og:title" content={fullTitle} /><meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
+    <meta property="og:image" content="https://bakasu.org/social-card.png" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="BakaSU — A more stable fork of SukiSU" />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={fullTitle} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content="https://bakasu.org/social-card.png" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replaceAll('<', '\\u003c')} />
+    <script is:inline>
+      try { const saved = localStorage.getItem('bakasu-theme'); const dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; document.documentElement.classList.toggle('dark', dark); } catch { document.documentElement.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches); }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">{lang === 'zh' ? '跳转到内容' : 'Skip to content'}</a>
+    <Header lang={lang} path={path} docs={docs} />
+    <slot />
+    <Search lang={lang} />
+    <template data-code-icon><Icon name="copy" size={14} /></template>
+    <script>
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click', () => {
+        const dark = document.documentElement.classList.toggle('dark');
+        try { localStorage.setItem('bakasu-theme', dark ? 'dark' : 'light'); } catch {}
+      });
+      const menu = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+      const sidebar = document.querySelector<HTMLElement>('#docs-sidebar');
+      const setMenuState = (open: boolean) => { document.querySelectorAll<HTMLElement>('main,body>header,[data-menu-toggle-secondary]').forEach(el => el.inert = open); if (open) { sidebar?.setAttribute('role','dialog'); sidebar?.setAttribute('aria-modal','true'); } else { sidebar?.removeAttribute('role'); sidebar?.removeAttribute('aria-modal'); } };
+      const closeMenu = () => { setMenuState(false); menu?.setAttribute('aria-expanded', 'false'); document.body.classList.remove('menu-open'); };
+      menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); document.body.classList.toggle('menu-open', open); setMenuState(open); if (open) sidebar?.querySelector<HTMLButtonElement>('[data-menu-close]')?.focus(); });
+      document.querySelector('[data-menu-backdrop]')?.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && document.body.classList.contains('menu-open')) { closeMenu(); menu?.focus(); } if (event.key === 'Tab' && document.body.classList.contains('menu-open') && sidebar) { const items = Array.from(sidebar.querySelectorAll<HTMLElement>('a,button,summary')).filter(el => el.getClientRects().length); const first = items[0]; const last = items.at(-1); if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); } } });
+      // Return focus to the opener when the mobile navigation is dismissed.
+      sidebar?.querySelector('[data-menu-close]')?.addEventListener('click', () => { closeMenu(); menu?.focus(); });
+      const zh = document.documentElement.lang.startsWith('zh');
+      document.querySelectorAll<HTMLElement>('.prose pre:not(.pt-logs pre)').forEach(pre => {
+        pre.tabIndex = 0; pre.setAttribute('role', 'region'); pre.setAttribute('aria-label', zh ? '代码示例，可横向滚动' : 'Code example, scroll horizontally');
+        const frame = document.createElement('div'); frame.className = 'code-frame'; pre.before(frame); frame.append(pre);
+        const language = document.createElement('span'); language.className = 'code-language'; language.textContent = pre.getAttribute('data-language') || pre.querySelector('code')?.className.replace('language-', '') || ''; frame.append(language);
+        const button = document.createElement('button'); button.className = 'code-copy'; button.type = 'button'; const icon = document.querySelector<HTMLTemplateElement>('[data-code-icon]'); if (icon) button.append(icon.content.cloneNode(true)); const label = document.createElement('span'); label.textContent = zh ? '复制' : 'Copy'; button.append(label); button.setAttribute('aria-label', zh ? '复制代码' : 'Copy code');
+        button.addEventListener('click', async () => { try { await navigator.clipboard.writeText(pre.querySelector('code')?.textContent || ''); label.textContent = zh ? '已复制' : 'Copied'; } catch { label.textContent = zh ? '复制失败' : 'Unable to copy'; } setTimeout(() => label.textContent = zh ? '复制' : 'Copy', 1800); });
+        frame.append(button);
+      });
+      document.querySelectorAll<HTMLElement>('.code-group').forEach((group, groupIndex) => {
+        const panels = Array.from(group.querySelectorAll<HTMLElement>('.code-panel'));
+        if (panels.length < 2) return;
+        const tabs = document.createElement('div'); tabs.className = 'code-tabs'; tabs.setAttribute('role', 'tablist'); tabs.setAttribute('aria-label', zh ? '代码示例' : 'Code examples');
+        const select = (index: number, focus = false) => panels.forEach((panel, i) => { panel.hidden = i !== index; const tab = tabs.children[i] as HTMLButtonElement; tab.setAttribute('aria-selected', String(i === index)); tab.tabIndex = i === index ? 0 : -1; if (focus && i === index) tab.focus(); });
+        panels.forEach((panel, index) => {
+          const button = document.createElement('button'); button.type = 'button'; button.textContent = panel.dataset.tabLabel || `Example ${index + 1}`; button.id = `code-tab-${groupIndex}-${index}`; button.setAttribute('role', 'tab'); button.setAttribute('aria-controls', `code-panel-${groupIndex}-${index}`);
+          panel.id = `code-panel-${groupIndex}-${index}`; panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', button.id); panel.tabIndex = 0;
+          button.addEventListener('click', () => select(index));
+          button.addEventListener('keydown', event => { let next = index; if (event.key === 'ArrowRight') next = (index + 1) % panels.length; else if (event.key === 'ArrowLeft') next = (index + panels.length - 1) % panels.length; else if (event.key === 'Home') next = 0; else if (event.key === 'End') next = panels.length - 1; else return; event.preventDefault(); select(next, true); }); tabs.append(button);
+        });
+        group.prepend(tabs); group.classList.add('enhanced'); select(0);
+      });
+      document.querySelectorAll<HTMLElement>('.device-directory').forEach(directory => {
+        const input = directory.querySelector<HTMLInputElement>('[data-device-filter]')!;
+        const rows = Array.from(directory.querySelectorAll<HTMLTableRowElement>('tbody tr'));
+        const count = directory.querySelector<HTMLElement>('[data-device-count]')!;
+        const empty = directory.querySelector<HTMLElement>('[data-device-empty]')!;
+        input.addEventListener('input', () => { const query = input.value.trim().toLocaleLowerCase(); let shown = 0; rows.forEach(row => { row.hidden = !row.textContent?.toLocaleLowerCase().includes(query); if (!row.hidden) shown++; }); count.textContent = document.documentElement.lang.startsWith('zh') ? `${shown} / ${rows.length} 个社区项目` : `${shown} of ${rows.length} community projects`; empty.hidden = shown !== 0; });
+      });
+    </script>
+  </body>
+</html>

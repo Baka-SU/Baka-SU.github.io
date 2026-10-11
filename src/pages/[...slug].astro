@@ -1,0 +1,23 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Docs from '../layouts/Docs.astro';
+import Page from '../layouts/Page.astro';
+import Patcher from '../components/Patcher.vue';
+import tabler from '@iconify-json/tabler/icons.json';
+const patcherIcons = { upload: tabler.icons.upload.body, check: tabler.icons.check.body, loader: tabler.icons['loader-2'].body };
+export async function getStaticPaths() {
+  return (await getCollection('docs', ({ data }) => !data.part && !data.source.endsWith('/sponsors.md'))).map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const after = entry.data.patcher ? await getEntry('docs', `${entry.id}--after`) : undefined;
+const afterRender = after ? await render(after) : undefined;
+const AfterContent = afterRender?.Content;
+const Layout = entry.data.layout === 'page' ? Page : Docs;
+const path = `/${entry.id.replace(/^zh-Hans\//, '')}`;
+---
+<Layout description={entry.data.description} title={entry.data.title} lang={entry.data.lang} path={path} source={entry.data.source} anchor={entry.data.anchor} headings={[...headings, ...(afterRender?.headings || [])]}>
+  <Content />
+  {entry.data.patcher && <Patcher icons={patcherIcons} lang={entry.data.lang === 'zh' ? 'zh-CN' : 'en'} client:visible />}
+  {AfterContent && <AfterContent />}
+</Layout>

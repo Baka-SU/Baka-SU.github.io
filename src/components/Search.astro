@@ -1,0 +1,61 @@
+---
+import Icon from './Icon.astro';
+import { type Language } from '../lib/navigation';
+const { lang = 'en' } = Astro.props as { lang: Language };
+const zh = lang === 'zh';
+---
+<dialog id="search-dialog" class="search-dialog" aria-label={zh ? '搜索文档' : 'Search documentation'} data-lang={lang}>
+  <div class="search-input-row"><Icon name="search" size={20} /><label class="sr-only" for="docs-search">{zh ? '搜索文档' : 'Search documentation'}</label><input id="docs-search" type="search" placeholder={zh ? '你想了解什么？' : 'What are you looking for?'} autocomplete="off" /><button class="icon-button" data-search-close aria-label={zh ? '关闭搜索' : 'Close search'}><Icon name="close" size={18} /></button></div>
+  <div class="search-results" id="search-results" aria-live="polite"><p class="search-hint">{zh ? '输入关键词，搜索指南、设备与内核集成。' : 'Search guides, devices, and kernel integration.'}</p></div>
+  <div class="search-footer"><span><kbd>↑</kbd><kbd>↓</kbd> {zh ? '切换' : 'navigate'} <kbd>↵</kbd> {zh ? '打开' : 'open'}</span><span><kbd>esc</kbd> {zh ? '关闭' : 'close'}</span></div>
+</dialog>
+<script>
+  import { loadDevelopmentSearch } from '../lib/development-search';
+  interface SearchResult { data: () => Promise<{ url: string; meta: { title?: string }; excerpt: string }> }
+  interface SearchIndex { search: (query: string) => Promise<{ results: SearchResult[] }> }
+  const dialog = document.querySelector<HTMLDialogElement>('#search-dialog')!;
+  const input = document.querySelector<HTMLInputElement>('#docs-search')!;
+  const results = document.querySelector<HTMLElement>('#search-results')!;
+  const zh = dialog.dataset.lang === 'zh';
+  let index: Promise<SearchIndex> | undefined;
+  let generation = 0;
+  let timer: ReturnType<typeof setTimeout>;
+  const hint = (text: string) => { results.replaceChildren(); const p = document.createElement('p'); p.className = 'search-hint'; p.textContent = text; results.append(p); };
+  function open() { dialog.showModal(); input.focus(); }
+  document.querySelectorAll('[data-search-open]').forEach(button => button.addEventListener('click', open));
+  document.querySelector('[data-search-close]')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog && (event.clientX < dialog.getBoundingClientRect().left || event.clientX > dialog.getBoundingClientRect().right || event.clientY < dialog.getBoundingClientRect().top || event.clientY > dialog.getBoundingClientRect().bottom)) dialog.close(); });
+  document.addEventListener('keydown', event => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); dialog.open ? dialog.close() : open(); } });
+  dialog.addEventListener('keydown', event => {
+    const links = Array.from(results.querySelectorAll<HTMLAnchorElement>('a'));
+    const current = links.indexOf(document.activeElement as HTMLAnchorElement);
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); const next = event.key === 'ArrowDown' ? (current + 1) % links.length : (current < 0 ? links.length - 1 : (current - 1 + links.length) % links.length); links[next]?.focus(); }
+    if (event.key === 'Enter' && document.activeElement === input) { event.preventDefault(); links[0]?.click(); }
+  });
+  input.addEventListener('input', () => {
+    clearTimeout(timer);
+    const token = ++generation;
+    const query = input.value.trim();
+    if (!query) { hint(zh ? '输入关键词开始搜索。' : 'Type a keyword to search the documentation.'); return; }
+    timer = setTimeout(async () => {
+      hint(zh ? '正在搜索…' : 'Searching…');
+      try {
+        const url = '/pagefind/pagefind.js';
+        index ??= import.meta.env.DEV ? loadDevelopmentSearch(zh ? 'zh' : 'en') : import(/* @vite-ignore */ url) as Promise<SearchIndex>;
+        const found = await (await index).search(query);
+        const entries = await Promise.all(found.results.slice(0, 10).map(result => result.data()));
+        if (token !== generation) return;
+        results.replaceChildren();
+        if (!entries.length) { hint(zh ? '没有找到结果，请尝试其他关键词。' : 'No results. Try a different keyword.'); return; }
+        for (const entry of entries) {
+          const a = document.createElement('a'); a.href = entry.url; a.className = 'search-result';
+          const title = document.createElement('strong'); title.textContent = entry.meta.title || entry.url;
+          const excerpt = document.createElement('span');
+          // Pagefind produces highlighted excerpts; use only text from the result.
+          const parsed = new DOMParser().parseFromString(entry.excerpt, 'text/html'); excerpt.textContent = parsed.body.textContent;
+          a.append(title, excerpt); results.append(a);
+        }
+      } catch { if (token === generation) hint(zh ? '搜索暂时不可用。请使用文档导航。' : 'Search is unavailable. Use the documentation navigation, or try again shortly.'); index = undefined; }
+    }, 160);
+  });
+</script>

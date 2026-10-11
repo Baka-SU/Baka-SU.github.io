@@ -7,7 +7,7 @@ const NAME = "gki-lkm-patcher";
 const PKG_NAME = "gki_lkm_patcher";
 const toolDir = dirname(fileURLToPath(import.meta.url));
 const pkgDir = resolve(toolDir, "pkg");
-const outDir = resolve(toolDir, "../../docs/.vitepress/theme/wasm", NAME);
+const outDir = resolve(toolDir, "../../src/wasm", NAME);
 const wasmPack = process.platform === "win32" ? "wasm-pack.exe" : "wasm-pack";
 
 rmSync(pkgDir, { recursive: true, force: true });

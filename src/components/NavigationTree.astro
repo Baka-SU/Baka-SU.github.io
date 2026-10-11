@@ -1,0 +1,31 @@
+---
+import Icon from './Icon.astro';
+import { href, type Language, type NavItem } from '../lib/navigation';
+import { navigationLink, navigationIdle, navigationActive } from '../lib/navigation-styles';
+interface Props { items: NavItem[]; lang: Language; path: string }
+const { items, lang, path } = Astro.props;
+const index = lang === 'zh' ? 1 : 0;
+const contains = (item: NavItem): boolean => item.path === path || !!item.items?.some(contains);
+---
+<ul class="space-y-1">{items.map(item => {
+  const open = !item.collapsed || contains(item);
+  const id = `nav-${encodeURIComponent(item.path || item.title[0])}`;
+  return <li>
+    <div class:list={['flex items-center rounded-md', item.path===path?navigationActive:navigationIdle]}>
+      {item.path ? <a href={href(item.path,lang)} aria-current={item.path===path?'page':undefined} class:list={[navigationLink,'min-w-0 flex-1']}>{item.title[index]}</a> : <span class:list={[navigationLink,'flex-1']}>{item.title[index]}</span>}
+      {item.items?.length && <button type="button" data-nav-toggle aria-expanded={open?'true':'false'} aria-controls={id} aria-label={`${lang==='zh'?'展开或折叠':'Toggle'} ${item.title[index]}`} class="group/toggle flex size-9 shrink-0 items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-200/60 dark:text-zinc-400 dark:hover:bg-zinc-800"><Icon name="chevron" size={14} class="transition-transform group-aria-expanded/toggle:rotate-90" /></button>}
+    </div>
+    {item.items?.length && <div id={id} data-nav-children data-initial-open={open?'true':'false'} class="mt-1 ml-3 border-l border-zinc-200 pl-3 dark:border-zinc-800"><Astro.self items={item.items} lang={lang} path={path} /></div>}
+  </li>;
+})}</ul>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-nav-toggle]').forEach(button => {
+    const children = document.getElementById(button.getAttribute('aria-controls')!);
+    if (!children) return;
+    children.hidden = button.getAttribute('aria-expanded') !== 'true';
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(expanded)); children.hidden = !expanded;
+    });
+  });
+</script>

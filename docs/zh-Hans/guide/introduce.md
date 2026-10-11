@@ -1,6 +1,10 @@
-# 关于 ReSukiSU
+---
+sidebar: { "label": "关于 BakaSU", "order": 10, "group": false }
+---
 
-## 什么是 ReSukiSU? {#what-is-resukisu}
+# 关于 BakaSU
+
+## 什么是 BakaSU? {#what-is-BakaSU}
 
 一个SukiSU Ultra的下游fork，移除一些已经过时或者不需要的东西
 

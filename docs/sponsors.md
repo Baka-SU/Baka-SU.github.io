@@ -1,13 +1,23 @@
 ---
 layout: page
-sidebar: false
-aside: false
-title: Sponsors
-description: Support ReSukiSU and help the project grow.
 ---
 
-<script setup>
-import SponsorsPage from './.vitepress/theme/components/SponsorsPage.vue'
-</script>
+# Our sponsors
 
-<SponsorsPage />
+Thank you to the people helping BakaSU grow.
+
+## Domain sponsor
+
+[![喵喵机](https://github.com/originalFactor.png)](https://github.com/originalFactor)
+
+[喵喵机](https://github.com/originalFactor)
+
+Donated the resukisu.org domain
+
+## Support BakaSU
+
+Enjoy the project? Become a sponsor and support continued development.
+
+[Become a sponsor](https://github.com/sponsors/ShiinaSaku)
+
+Sharing the project, reporting issues, and contributing code matter too.

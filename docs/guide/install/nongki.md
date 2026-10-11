@@ -1,6 +1,11 @@
+---
+sidebar:
+  { "label": "Non-GKI Devices", "order": 10, "group": "Get started", "parent": "/guide/install" }
+---
+
 # Non-GKI Devices
 
-This page covers the ReSukiSU installation process for Non-GKI devices.
+This page covers the BakaSU installation process for Non-GKI devices.
 
 ::: warning
 Non-GKI kernels are highly fragmented and require device-specific integration and compilation. Generic images cannot be used directly.
@@ -12,4 +17,4 @@ You generally need to find a bootable kernel before you can continue. This may b
 
 See [Building Kernel](../build) and [Manual Hooks](../manual-integrate) for the integration workflow.
 
-You can also look for kernels built by other developers, such as those listed under [Unofficial ReSukiSU-supported devices and projects](../unofficial-devices).
+You can also look for kernels built by other developers, such as those listed under [Unofficial BakaSU-supported devices and projects](../unofficial-devices).

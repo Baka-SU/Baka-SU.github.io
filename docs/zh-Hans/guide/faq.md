@@ -1,3 +1,7 @@
+---
+sidebar: { "label": "常见问题", "order": 30, "group": "Get started" }
+---
+
 # 常见问题
 
 ## `MODULE_DEVICE_TABLE` 宏调用编译报错 {#MODULE-DEVICE-TABLE}
@@ -12,6 +16,6 @@
 这部分仅针对需要修改sepolicy的模块进行解答。如 LSPosed/ZygiskNext 模块会出现此问题。
 :::
 
-自 ReSukiSU commit [`436d333`](https://github.com/ReSukiSU/ReSukiSU/commit/436d333) 起，由于该 commit 跟随上游KernelSU重构了sepolicy部分，因此在内核/管理器**其中一个 低于 34634 或者在此commit之前的版本**会出现模块不工作的情况
+自 BakaSU commit [`436d333`](https://github.com/BakaSU/BakaSU/commit/436d333) 起，由于该 commit 跟随上游KernelSU重构了sepolicy部分，因此在内核/管理器**其中一个 低于 34634 或者在此commit之前的版本**会出现模块不工作的情况
 
 请将<mark>内核/管理器**全部**升级到 34634 或者在此commit之后的版本</mark>即可解决问题。

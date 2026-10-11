@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Sidebar from './Sidebar.astro';
+import Icon from './Icon.astro';
+import { type Language } from '../lib/navigation';
+const { lang = 'en' } = Astro.props as { lang: Language };
+const zh = lang === 'zh';
+const text = zh ? { title:'感谢支持', intro:'感谢帮助 BakaSU 持续发展的每一位朋友。', domain:'域名赞助者', donated:'捐赠了 resukisu.org 域名', support:'支持 BakaSU', description:'喜欢这个项目？欢迎赞助，支持后续开发。', action:'成为赞助者', other:'分享项目、报告问题和贡献代码，同样是宝贵的支持。' } : { title:'Our sponsors', intro:'Thank you to the people helping BakaSU grow.', domain:'Domain sponsor', donated:'Donated the resukisu.org domain', support:'Support BakaSU', description:'Enjoy the project? Become a sponsor and support continued development.', action:'Become a sponsor', other:'Sharing the project, reporting issues, and contributing code matter too.' };
+---
+<Base title={text.title} description={text.intro} lang={lang} path="/sponsors">
+  <div class="min-[801px]:hidden"><Sidebar lang={lang} path="/sponsors" /></div>
+  <main id="main-content" data-pagefind-body class="mx-auto max-w-[1040px] px-6 py-14 sm:px-10 sm:py-20">
+    <header class="mx-auto mb-12 max-w-xl text-center"><span class="mb-5 inline-flex size-12 items-center justify-center rounded-xl bg-pink-50 text-pink-600 dark:bg-pink-950/50 dark:text-pink-400"><Icon name="heart" size={24}/></span><h1 data-pagefind-meta="title" class="text-4xl font-semibold tracking-tight sm:text-5xl">{text.title}</h1><p class="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">{text.intro}</p></header>
+    <section class="grid gap-6 md:grid-cols-2">
+      <article class="flex flex-col rounded-2xl border border-zinc-200 bg-white p-7 sm:p-9 dark:border-zinc-800 dark:bg-zinc-950"><h2 class="mb-8 flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-400"><Icon name="globe" size={18}/>{text.domain}</h2><a href="https://github.com/originalFactor" class="group flex items-center gap-5 rounded-lg"><img src="https://github.com/originalFactor.png?size=160" alt="" width="80" height="80" loading="lazy" decoding="async" class="size-20 rounded-2xl border border-zinc-200 dark:border-zinc-800"/><span><strong class="text-xl font-semibold transition-colors group-hover:text-sky-600 dark:group-hover:text-sky-400">喵喵机</strong><span class="mt-1.5 flex items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"><Icon name="github" size={14}/>@originalFactor<Icon name="arrow" size={13}/></span></span></a><p class="mt-8 border-t border-zinc-200 pt-5 text-sm leading-6 text-zinc-600 dark:border-zinc-800 dark:text-zinc-400">{text.donated}</p></article>
+      <section class="flex flex-col items-start rounded-2xl border border-sky-200 bg-sky-50/60 p-7 sm:p-9 dark:border-sky-900 dark:bg-sky-950/30"><span class="mb-6 text-sky-600 dark:text-sky-400"><Icon name="heart-handshake" size={26}/></span><h2 class="text-2xl font-semibold tracking-tight">{text.support}</h2><p class="mt-3 mb-7 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{text.description}</p><a href="https://github.com/sponsors/ShiinaSaku" class="mt-auto inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-600 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-sky-700 dark:hover:bg-sky-500"><Icon name="heart" size={17}/>{text.action}<Icon name="arrow" size={15}/></a></section>
+    </section>
+    <p class="mx-auto mt-8 max-w-xl text-center text-sm leading-7 text-zinc-600 dark:text-zinc-400">{text.other}</p>
+  </main>
+</Base>

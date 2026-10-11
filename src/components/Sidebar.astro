@@ -1,0 +1,19 @@
+---
+import { navigation, href, type Language } from '../lib/navigation';
+import Icon from './Icon.astro';
+import NavigationTree from './NavigationTree.astro';
+import { navigationLink, navigationIdle, navigationActive, navigationHeading } from '../lib/navigation-styles';
+const { lang, path } = Astro.props as { lang: Language; path: string };
+const index = lang === 'zh' ? 1 : 0;
+const linkClass = (active: boolean) => [navigationLink, active ? navigationActive : navigationIdle];
+---
+<div class="menu-backdrop fixed inset-x-0 bottom-0 top-16 z-50 hidden bg-black/40 backdrop-blur-sm [body.menu-open_&]:block min-[801px]:!hidden" data-menu-backdrop></div>
+<aside class="docs-sidebar fixed bottom-0 left-0 top-16 z-60 hidden w-72 overflow-y-auto border-r border-zinc-200 bg-white px-5 py-6 [body.menu-open_&]:block min-[801px]:sticky min-[801px]:z-10 min-[801px]:block min-[801px]:h-[calc(100dvh-64px)] min-[801px]:w-auto min-[801px]:border-0 min-[801px]:px-0 min-[801px]:pr-6 min-[801px]:py-10 dark:border-zinc-800 dark:bg-zinc-950" id="docs-sidebar" aria-label={lang === 'zh' ? '文档导航' : 'Documentation navigation'}>
+  <div class="mb-6 flex items-center justify-between min-[801px]:hidden"><strong>BakaSU</strong><button class="icon-button" data-menu-close aria-label={lang === 'zh' ? '关闭导航' : 'Close navigation'}><Icon name="close" /></button></div>
+  <div class="mb-6 flex flex-wrap gap-3 border-b border-zinc-200 pb-5 text-sm min-[801px]:hidden dark:border-zinc-800"><a href={href('/',lang)}>{lang === 'zh' ? '首页' : 'Home'}</a><a href={href('/sponsors',lang)}>{lang === 'zh' ? '赞助者' : 'Sponsors'}</a><a href="https://github.com/Baka-SU" class="ml-auto" aria-label="GitHub"><Icon name="github" size={18} /></a><a href="https://t.me/BAKASU_grp" aria-label="Telegram"><Icon name="telegram" size={18} /></a></div>
+  <nav class="space-y-5">{navigation.map(group => <section>
+    {group.path ? <a class:list={[...linkClass(group.path === path),'font-medium']} href={href(group.path,lang)} aria-current={group.path === path ? 'page' : undefined}>{group.title[index]}</a> : <h2 class={navigationHeading}>{group.title[index]}</h2>}
+    {group.items && <NavigationTree items={group.items} lang={lang} path={path} />}
+  </section>)}</nav>
+  <div class="mt-6 border-t border-zinc-200 pt-5 dark:border-zinc-800"><a href="/llms.txt" class="flex items-center gap-2 rounded-md px-3 py-2 text-[13px] leading-5 text-zinc-600 dark:text-zinc-400 hover:text-sky-600 dark:hover:text-sky-400"><Icon name="pencil-ai" size={16} />{lang==='zh'?'AI 文档索引':'AI documentation index'}<Icon name="arrow" size={12} /></a></div>
+</aside>

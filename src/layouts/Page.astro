@@ -1,0 +1,14 @@
+---
+import Base from './Base.astro';
+import PageActions from '../components/PageActions.astro';
+import Sidebar from '../components/Sidebar.astro';
+import type { Language } from '../lib/navigation';
+interface Props {title:string;description?:string;lang:Language;path:string}
+const {title,description,lang,path}=Astro.props;
+---
+<Base title={title} description={description||title} lang={lang} path={path}>
+  <div class="min-[801px]:hidden"><Sidebar lang={lang} path={path}/></div>
+  <main id="main-content" class="mx-auto max-w-[808px] px-6 py-14 sm:py-16" data-pagefind-body>
+    <div class="mb-6 flex justify-end"><PageActions path={path} lang={lang}/></div><h1 class="mb-8 text-4xl font-semibold tracking-tight" data-pagefind-meta="title">{title}</h1><div class="prose"><slot/></div>
+  </main>
+</Base>

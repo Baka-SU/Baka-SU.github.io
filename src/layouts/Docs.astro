@@ -1,0 +1,71 @@
+---
+import Base from './Base.astro';
+import Sidebar from '../components/Sidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import Icon from '../components/Icon.astro';
+import PageActions from '../components/PageActions.astro';
+import { allPages, copy, href, breadcrumbItems, type Language } from '../lib/navigation';
+interface Props { title: string; description?: string; lang: Language; path: string; source?: string; anchor?: string; headings?: { depth:number; slug:string; text:string }[] }
+const { title, description, lang, path, source, anchor, headings=[] }=Astro.props;
+const index=lang==='zh'?1:0; const current=allPages.findIndex(page=>page.path===path);
+const previous=allPages[current-1]; const next=allPages[current+1]; const t=copy(lang);
+const breadcrumbs=breadcrumbItems(path,lang);
+const toc=headings.filter(h=>h.depth>=2&&h.depth<=4);
+
+---
+<Base title={title} description={description||title} lang={lang} path={path} docs>
+  <div class="sticky top-16 z-30 flex h-11 items-center justify-between border-b border-zinc-200 bg-white px-6 text-xs text-zinc-500 min-[801px]:hidden dark:border-zinc-800 dark:bg-zinc-950"><button class="flex items-center gap-2" data-menu-toggle-secondary><Icon name="menu" size={14} />{t.menu}</button><a class="flex items-center gap-2" href="#main-content">{lang==='zh'?'返回顶部':'Return to top'}<Icon name="up" size={14} /></a></div>
+  <div class="mx-auto grid max-w-[1440px] grid-cols-1 gap-0 min-[801px]:grid-cols-[248px_minmax(0,1fr)] min-[801px]:px-6 min-[1200px]:grid-cols-[248px_minmax(0,1fr)_224px] min-[1200px]:px-8">
+    <Sidebar lang={lang} path={path} />
+    <main class="doc-main mx-auto min-w-0 w-full max-w-[832px] px-6 pt-8 pb-16 sm:px-10 min-[801px]:pt-10 lg:px-12" id="main-content" data-pagefind-body>
+      <div class="mb-5 flex flex-wrap items-center justify-between gap-3" data-pagefind-ignore><nav aria-label={lang==='zh'?'面包屑导航':'Breadcrumb'} class="flex flex-wrap items-center gap-2 text-xs leading-5 text-zinc-500 dark:text-zinc-400">{breadcrumbs.map((item,index)=><>{index>0&&<Icon name="chevron" size={12}/>}<a href={item.path} aria-current={index===breadcrumbs.length-1?'page':undefined} class="hover:text-sky-600 aria-[current=page]:text-sky-600 dark:hover:text-sky-400 dark:aria-[current=page]:text-sky-400">{item.name}</a></>)}</nav><PageActions path={path} lang={lang} /></div>
+      <header class="mb-7"><h1 id={anchor||'page-title'} class="text-[32px] leading-tight font-semibold tracking-[-0.035em] sm:text-4xl" data-pagefind-meta="title">{title}</h1></header>
+      {toc.length>0&&<details data-mobile-toc class="mb-7 rounded-lg border border-zinc-200 bg-zinc-50 p-3 min-[1200px]:hidden dark:border-zinc-800 dark:bg-zinc-900/40"><summary class="flex cursor-pointer list-none items-center justify-between px-2 text-[13px] font-medium leading-5 [&::-webkit-details-marker]:hidden">{t.onPage}<Icon name="chevron-down" size={16} /></summary><div class="pt-4 [&_h2]:hidden"><TableOfContents headings={toc} label={t.onPage} /></div></details>}
+      <div class="prose"><slot /></div>
+      <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-zinc-200 pt-5 text-xs dark:border-zinc-800" data-pagefind-ignore>{source&&<a class="inline-flex items-center gap-1.5 text-zinc-500 transition-colors hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-white" href={`https://github.com/Baka-SU/Baka-SU.github.io/edit/main/${source}`} target="_blank" rel="noopener noreferrer"><Icon name="pencil" size={14} />{t.edit}<Icon name="arrow" size={12} /></a>}<a class="inline-flex items-center gap-1.5 text-zinc-500 hover:text-zinc-950 dark:hover:text-white" href={`https://github.com/Baka-SU/Baka-SU.github.io/issues/new?title=${encodeURIComponent('Documentation: '+title)}`} target="_blank" rel="noopener noreferrer"><Icon name="message-circle" size={14} />{lang==='zh'?'报告问题':'Report an issue'}</a></div>
+      <nav class="mt-7 grid grid-cols-2 gap-4" aria-label={lang==='zh'?'前后页':'Adjacent pages'} data-pagefind-ignore>{previous?<a class="group rounded-xl border border-zinc-200 p-4 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600" href={href(previous.path,lang)}><span class="mb-2 flex items-center gap-1.5 text-xs text-zinc-400"><Icon name="left" size={13} />{t.previous}</span><strong class="text-sm font-medium">{previous.label[index]}</strong></a>:<div/>}{next&&<a class="rounded-xl border border-zinc-200 p-4 text-right transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600" href={href(next.path,lang)}><span class="mb-2 flex items-center justify-end gap-1.5 text-xs text-zinc-400">{t.next}<Icon name="right" size={13} /></span><strong class="text-sm font-medium">{next.label[index]}</strong></a>}</nav>
+    </main>
+    <aside class="hidden py-10 pl-3 min-[1200px]:block"><div class="sticky top-26">{toc.length>0&&<TableOfContents headings={toc} label={t.onPage} />}</div></aside>
+  </div>
+  <template data-heading-icon><Icon name="link" size={16} /></template>
+  <script>
+    document.querySelector('[data-menu-toggle-secondary]')?.addEventListener('click',()=>document.querySelector<HTMLButtonElement>('[data-menu-toggle]')?.click());
+    const links=document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+    const headings = Array.from(document.querySelectorAll<HTMLElement>('.prose h2[id],.prose h3[id],.prose h4[id]'));
+    const setActive = (id: string) => links.forEach(link => {
+      if (decodeURIComponent(link.hash.slice(1)) === id) link.setAttribute('aria-current','location');
+      else link.removeAttribute('aria-current');
+    });
+    const updateActive = () => {
+      let current = headings[0];
+      for (const heading of headings) {
+        if (heading.getBoundingClientRect().top <= 140) current = heading;
+        else break;
+      }
+      // The final section may be too short to reach the reading line.
+      if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) current = headings.at(-1) ?? current;
+      if (current) setActive(current.id);
+    };
+    let pending = false;
+    window.addEventListener('scroll', () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => { updateActive(); pending = false; });
+    }, { passive: true });
+    window.addEventListener('resize', updateActive);
+    window.addEventListener('hashchange', updateActive);
+    window.addEventListener('load', updateActive);
+    links.forEach(link => link.addEventListener('click', () => {
+      // Close the mobile disclosure before native anchor scrolling measures its target.
+      document.querySelector<HTMLDetailsElement>('[data-mobile-toc]')?.removeAttribute('open');
+      setActive(decodeURIComponent(link.hash.slice(1)));
+    }));
+    headings.forEach(heading => {
+      const a=document.createElement('a'); a.href=`#${heading.id}`;
+      a.className='heading-anchor ml-2 inline-flex align-middle text-zinc-400 opacity-0 transition-opacity hover:text-sky-600 dark:hover:text-sky-400 focus:opacity-100';
+      a.setAttribute('aria-label',document.documentElement.lang.startsWith('zh')?'此章节链接':'Link to this section');
+      a.append(document.querySelector<HTMLTemplateElement>('[data-heading-icon]')!.content.cloneNode(true)); heading.append(a);
+    });
+    updateActive();
+  </script>
+</Base>

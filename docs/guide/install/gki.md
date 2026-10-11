@@ -1,12 +1,17 @@
+---
+sidebar:
+  { "label": "Generic GKI Devices", "order": 0, "group": "Get started", "parent": "/guide/install" }
+---
+
 # Generic GKI Devices
 
-This page covers the ReSukiSU installation process for generic GKI devices.
+This page covers the BakaSU installation process for generic GKI devices.
 
 Before starting, identify the device kernel version and KMI, then read the [general installation guide](/guide/install).
 
 ## LKM Installation {#lkm}
 
-After installing ReSukiSU Manager, tap `Not Installed` to open the installation screen, then select **LKM patching/installation**.
+After installing BakaSU Manager, tap `Not Installed` to open the installation screen, then select **LKM patching/installation**.
 
 Select the `boot`, `init_boot`, or `vendor_boot` image matching the installed firmware. The Manager selects the LKM file from the system KMI, patches the image, and writes `KernelSU_patched_*.img` to the download directory.
 
@@ -20,9 +25,7 @@ Flash the patched image to its corresponding partition, reboot, and open the Man
 We also provide an online tool for patching `init_boot`, `boot`, or `vendor_boot`.
 :::
 
-<ClientOnly>
-  <GKI_LKM_Patcher />
-</ClientOnly>
+<!-- patcher -->
 
 ::: warning
 The image and target partition must match. Back up important data and prepare stock images and recovery tools before flashing.
@@ -30,4 +33,4 @@ The image and target partition must match. Back up important data and prepare st
 
 ## GKI Installation {#built-in}
 
-See the [Google documentation](https://source.android.com/docs/setup/build/building-kernels) and the [ReSukiSU build guide](../build#introduction) for details.
+See the [Google documentation](https://source.android.com/docs/setup/build/building-kernels) and the [BakaSU build guide](../build#introduction) for details.

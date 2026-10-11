@@ -1,6 +1,10 @@
-# About ReSukiSU
+---
+sidebar: { "label": "About BakaSU", "order": 10, "group": false }
+---
 
-## What is ReSukiSU? {#what-is-resukisu}
+# About BakaSU
+
+## What is BakaSU? {#what-is-BakaSU}
 
 A downstream fork of SukiSU Ultra that removes obsolete or unnecessary components.
 

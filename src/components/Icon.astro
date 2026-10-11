@@ -1,0 +1,13 @@
+---
+import simpleIcons from '@iconify-json/simple-icons/icons.json';
+import tabler from '@iconify-json/tabler/icons.json';
+interface Props { name: string; size?: number; class?: string }
+const { name, size = 18, class: className } = Astro.props;
+const names: Record<string, string> = { arrow: 'arrow-up-right', right: 'arrow-right', left: 'arrow-left', up: 'chevron-up', home: 'home', search: 'search', sun: 'sun', moon: 'moon', menu: 'menu-2', close: 'x', book: 'book', terminal: 'terminal-2', device: 'device-mobile', layers: 'stack-2', shield: 'shield-check', code: 'code', heart: 'heart', globe: 'world', chevron: 'chevron-right', check: 'check', copy: 'copy', bolt: 'bolt', settings: 'settings' };
+const brands = ['github', 'telegram', 'android'];
+const collection = brands.includes(name) ? simpleIcons : tabler;
+const key = brands.includes(name) ? name : names[name] || name;
+const icon = (collection.icons as Record<string, { body: string; width?: number; height?: number }>)[key];
+if (!icon) throw new Error(`Unknown icon: ${name}`);
+---
+<svg class={className} width={size} height={size} viewBox={`0 0 ${icon.width || collection.width || 24} ${icon.height || collection.height || 24}`} aria-hidden="true"><Fragment set:html={icon.body} /></svg>
