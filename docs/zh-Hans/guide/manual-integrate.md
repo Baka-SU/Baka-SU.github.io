@@ -582,6 +582,51 @@ index a3bef5bd..0b116d7c 100644
 
 在 `security/selinux/selinuxfs.c` 中找到 `sel_handle_status_ops` 的定义，并将其前面的 `static` 关键字去掉。
 
+### security_dump_masked_av <Badge type="danger" text="必加"/>
+
+```diff
+diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+-static void security_dump_masked_av(struct policydb *policydb,
++void security_dump_masked_av(struct policydb *policydb,
+				    struct context *scontext,
+				    struct context *tcontext,
+				    u16 tclass,
+				    u32 permissions,
+				    const char *reason)
+{
+	struct common_datum *common_dat;
+	struct class_datum *tclass_dat;
+```
+
+在 `security/selinux/ss/services.c` 中找到 `security_dump_masked_av` 的定义，并将其前面的 `static` 关键字去掉。
+
+### context_struct_compute_av <Badge type="danger" text="必加"/>
+
+```diff
+diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+/*
+ * Compute access vectors and extended permissions based on a context
+ * structure pair for the permissions in a particular class.
+ */
+-static void context_struct_compute_av(struct policydb *policydb,
++void context_struct_compute_av(struct policydb *policydb,
+
+				      struct context *scontext,
+				      struct context *tcontext,
+				      u16 tclass,
+				      struct av_decision *avd,
+				      struct extended_perms *xperms)
+{
+```
+
+在 `security/selinux/ss/services.c` 中找到 `context_struct_compute_av` 的定义，并将其前面的 `static` 关键字去掉。
+
 ### selinux_status_page & selinux_status_lock export <Badge type="warning" text="4.17- 按需添加"/>
 
 ::: info
@@ -664,48 +709,3 @@ index b818410d2418..ea2f3022744f 100644
 ```
 
 在 `security/selinux/hooks.c` 中找到 `selinux_ops` 的结构体定义，并将其前面的 `static` 关键字去掉。
-
-### security_dump_masked_av <Badge type="danger" text="6.6+ 必加"/>
-
-```diff
-diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
---- a/security/selinux/ss/services.c
-+++ b/security/selinux/ss/services.c
-@@ -XXXX,X +XXXX,X @@
--static void security_dump_masked_av(struct policydb *policydb,
-+void security_dump_masked_av(struct policydb *policydb,
-				    struct context *scontext,
-				    struct context *tcontext,
-				    u16 tclass,
-				    u32 permissions,
-				    const char *reason)
-{
-	struct common_datum *common_dat;
-	struct class_datum *tclass_dat;
-```
-
-在 `security/selinux/ss/services.c` 中找到 `security_dump_masked_av` 的定义，并将其前面的 `static` 关键字去掉。
-
-### context_struct_compute_av <Badge type="danger" text="6.6+ 必加"/>
-
-```diff
-diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
---- a/security/selinux/ss/services.c
-+++ b/security/selinux/ss/services.c
-@@ -XXXX,X +XXXX,X @@
-/*
- * Compute access vectors and extended permissions based on a context
- * structure pair for the permissions in a particular class.
- */
--static void context_struct_compute_av(struct policydb *policydb,
-+void context_struct_compute_av(struct policydb *policydb,
-
-				      struct context *scontext,
-				      struct context *tcontext,
-				      u16 tclass,
-				      struct av_decision *avd,
-				      struct extended_perms *xperms)
-{
-```
-
-在 `security/selinux/ss/services.c` 中找到 `context_struct_compute_av` 的定义，并将其前面的 `static` 关键字去掉。

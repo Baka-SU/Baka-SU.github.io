@@ -608,6 +608,51 @@ Remove `static` from the definition of `selinux_status_page` and `selinux_status
 
 If this definition not found,please ignore this part.
 
+### security_dump_masked_av <Badge type="danger" text="Required"/>
+
+```diff
+diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+-static void security_dump_masked_av(struct policydb *policydb,
++void security_dump_masked_av(struct policydb *policydb,
+				    struct context *scontext,
+				    struct context *tcontext,
+				    u16 tclass,
+				    u32 permissions,
+				    const char *reason)
+{
+	struct common_datum *common_dat;
+	struct class_datum *tclass_dat;
+```
+
+Remove `static` from the definition of `security_dump_masked_av` in `security/selinux/ss/services.c`
+
+### context_struct_compute_av <Badge type="danger" text="Required"/>
+
+```diff
+diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+/*
+ * Compute access vectors and extended permissions based on a context
+ * structure pair for the permissions in a particular class.
+ */
+-static void context_struct_compute_av(struct policydb *policydb,
++void context_struct_compute_av(struct policydb *policydb,
+
+				      struct context *scontext,
+				      struct context *tcontext,
+				      u16 tclass,
+				      struct av_decision *avd,
+				      struct extended_perms *xperms)
+{
+```
+
+Remove `static` from the definition of `context_struct_compute_av` in `security/selinux/ss/services.c`
+
 ### policy_rwlock export <Badge type="warning" text="4.17- Conditionally Required"/> {#policy-rwlock-export}
 
 ::: info
@@ -668,47 +713,4 @@ If this definition not found,please ignore this part.
 
 Remove `static` from the definition of `selinux_ops` in `security/selinux/selinuxfs.c`
 
-### security_dump_masked_av <Badge type="danger" text="6.6+ Required"/>
 
-```diff
-diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
---- a/security/selinux/ss/services.c
-+++ b/security/selinux/ss/services.c
-@@ -XXXX,X +XXXX,X @@
--static void security_dump_masked_av(struct policydb *policydb,
-+void security_dump_masked_av(struct policydb *policydb,
-				    struct context *scontext,
-				    struct context *tcontext,
-				    u16 tclass,
-				    u32 permissions,
-				    const char *reason)
-{
-	struct common_datum *common_dat;
-	struct class_datum *tclass_dat;
-```
-
-Remove `static` from the definition of `security_dump_masked_av` in `security/selinux/ss/services.c`
-
-### context_struct_compute_av <Badge type="danger" text="6.6+ Required"/>
-
-```diff
-diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
---- a/security/selinux/ss/services.c
-+++ b/security/selinux/ss/services.c
-@@ -XXXX,X +XXXX,X @@
-/*
- * Compute access vectors and extended permissions based on a context
- * structure pair for the permissions in a particular class.
- */
--static void context_struct_compute_av(struct policydb *policydb,
-+void context_struct_compute_av(struct policydb *policydb,
-
-				      struct context *scontext,
-				      struct context *tcontext,
-				      u16 tclass,
-				      struct av_decision *avd,
-				      struct extended_perms *xperms)
-{
-```
-
-Remove `static` from the definition of `context_struct_compute_av` in `security/selinux/ss/services.c`
