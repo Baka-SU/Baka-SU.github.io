@@ -101,14 +101,14 @@ SYSCALL_DEFINE2(fstat64, unsigned long, fd, struct stat64 __user *, statbuf)
 ::: code-group
 
 ```diff [3.14+]
-diff --git a/fs/exec.c b/fs/exec.c
-index 90e14cdddb88..0bcde889d7b9
---- a/fs/exec.c
-+++ b/fs/exec.c
-@@ -1898,12 +1898,31 @@ static int __do_execve_file(int fd, struct filename *filename,
- 	return retval;
+diff --git a/exec.c b/exec.c
+index 5344364..cc612f0 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1703,6 +1703,15 @@ static int exec_binprm(struct linux_binprm *bprm)
+ 	return ret;
  }
-
+ 
 +#ifdef CONFIG_KSU_MANUAL_HOOK
 +__attribute__((hot))
 +extern int ksu_handle_execveat(int *fd, struct filename **filename_ptr,
@@ -118,26 +118,33 @@ index 90e14cdddb88..0bcde889d7b9
 +				void *argv, void *envp, int *flags, int *retval);
 +#endif
 +
- static int do_execveat_common(int fd, struct filename *filename,
- 			      struct user_arg_ptr argv,
- 			      struct user_arg_ptr envp,
- 			      int flags)
- {
+ /*
+  * sys_execve() executes a new program.
+  */
+@@ -1717,6 +1726,10 @@ static int do_execveat_common(int fd, struct filename *filename,
+ 	struct files_struct *displaced;
+ 	int retval;
+ 
 +#ifdef CONFIG_KSU_MANUAL_HOOK
-+	int retval;
-+	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
-+
-+	retval = __do_execve_file(fd, filename, argv, envp, flags, NULL);
-+
-+	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval);
-+
-+	return retval;
-+#else
- 	return __do_execve_file(fd, filename, argv, envp, flags, NULL);
++	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags)
 +#endif
++
+ 	if (IS_ERR(filename))
+ 		return PTR_ERR(filename);
+ 
+@@ -1847,6 +1860,11 @@ out_files:
+ 	if (displaced)
+ 		reset_files_struct(displaced);
+ out_ret:
++	
++#ifdef CONFIG_KSU_MANUAL_HOOK
++	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval)
++#endif
++
+ 	putname(filename);
+ 	return retval;
  }
 
- int do_execve_file(struct file *file, void *__argv, void *__envp)
 ```
 
 ```diff [3.14-]
@@ -182,6 +189,7 @@ index 7ea097f..591dc94
  }
 
 ```
+
 :::
 
 ::: details 弃置 hook (3.14+)
@@ -244,6 +252,7 @@ index 7ea097f..591dc94
  }
 
 ```
+
 :::
 
 对于 3.14+ 的内核，请使用 `ksu_handle_execveat` 和 `ksu_handle_post_execveat`，并在 `fs/exec.c` 中 hook `do_execveat_common`。
