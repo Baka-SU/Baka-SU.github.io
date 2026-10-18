@@ -7,7 +7,7 @@ import Sidebar from './Sidebar.astro';
 import Icon from './Icon.astro';
 import { href, type Language } from '../lib/navigation';
 const { lang='en' }=Astro.props as {lang:Language}; const zh=lang==='zh';
-const { hero, features }=parse((zh?chinese:english).match(/^---\n([\s\S]*?)\n---/)![1]) as {hero:{name:string;text:string;tagline:string;actions:{theme:string;text:string;link:string}[]};features:{title:string;details:string;link?:string}[]};
+const { hero, features }=parse((zh?chinese:english).replace(/\r\n/g,'\n').match(/^---\n([\s\S]*?)\n---/)![1]) as {hero:{name:string;text:string;tagline:string;actions:{theme:string;text:string;link:string}[]};features:{title:string;details:string;link?:string}[]};
 const target=(link:string)=>link.startsWith('http')?link.replace('github.com/BakaSU/','github.com/Baka-SU/'):href(link.replace(/^\.\//,'/').replace(/\.md$/,''),lang);
 const icons=['android','device','bolt','settings','shield','telegram'];
 const colors=['bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-400','bg-green-50 text-green-600 dark:bg-green-950/50 dark:text-green-400','bg-yellow-50 text-yellow-600 dark:bg-yellow-950/50 dark:text-yellow-400','bg-pink-50 text-pink-600 dark:bg-pink-950/50 dark:text-pink-400','bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-400','bg-green-50 text-green-600 dark:bg-green-950/50 dark:text-green-400'];

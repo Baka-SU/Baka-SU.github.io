@@ -135,10 +135,10 @@ export function prepareDocs() {
   };
   for (const file of files(docs)) {
     const path = relative(docs, file).replaceAll("\\", "/").replace(/\.md$/, "");
+    // Normalize CRLF checkouts (core.autocrlf on Windows) before parsing frontmatter.
+    const raw = readFileSync(file, "utf8").replaceAll("\r\n", "\n");
     if (path === "index" || path === "zh-Hans/index") {
-      const { hero, features } = parse(
-        readFileSync(file, "utf8").match(/^---\n([\s\S]*?)\n---/)[1],
-      );
+      const { hero, features } = parse(raw.match(/^---\n([\s\S]*?)\n---/)[1]);
       writeMarkdown(
         path,
         rebrand(
@@ -149,7 +149,6 @@ export function prepareDocs() {
       continue;
     }
     const zh = path.startsWith("zh-Hans/");
-    const raw = readFileSync(file, "utf8");
     const frontmatter = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     const options = frontmatter ? parse(frontmatter[1]) || {} : {};
     let body = raw.replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, "");
