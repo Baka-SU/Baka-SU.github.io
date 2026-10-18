@@ -292,5 +292,12 @@
         "kernel_name": "android_kernel_samsung_n770f",
         "kernel_link": "https://github.com/av2xn/android_kernel_samsung_n770f",
         "devices": "Samsung Galaxy Note10 Lite"
+    },
+    {
+        "maintainer": "GuitarHeroStyles",
+        "maintainer_link": "https://github.com/GuitarHeroStyles",
+        "kernel_name": "kernel_samsung_sm7325",
+        "kernel_link": "https://github.com/GuitarHeroStyles/kernel_samsung_sm7325",
+        "devices": "A52s 5G One UI"
     }
 ]
