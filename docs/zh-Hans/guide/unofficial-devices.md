@@ -13,7 +13,7 @@ sidebar: { "label": "非官方支持设备", "order": 20, "group": "Get started"
 :::
 
 ::: info
-请通过 [向文档创建issue](https://github.com/BakaSU/BakaSU.github.io/issues) 来添加设备
+请通过 [向文档创建issue](https://github.com/Baka-SU/BakaSU.github.io/issues) 来添加设备
 :::
 
 <!-- devices: repos.json -->

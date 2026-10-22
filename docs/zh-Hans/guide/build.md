@@ -56,8 +56,10 @@ tools/bazel build --config=fast //common:kernel_aarch64_dist
 把 BakaSU 添加到你的内核源码树，在内核的根目录执行以下命令：
 
 ```sh
-curl -LSs "https://raw.githubusercontent.com/BakaSU/BakaSU/main/kernel/setup.sh" | bash
+curl -LSs "https://raw.githubusercontent.com/Baka-SU/BakaSU/main/kernel/setup.sh" | bash
 ```
+
+然后，**选择其中一种方法**来将 BakaSU 集成到你的内核中：
 
 ### 手动钩子
 

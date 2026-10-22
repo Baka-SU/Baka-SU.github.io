@@ -56,8 +56,10 @@ tools/bazel build --config=fast //common:kernel_aarch64_dist
 First, add BakaSU to your kernel source tree:
 
 ```sh
-curl -LSs "https://raw.githubusercontent.com/BakaSU/BakaSU/main/kernel/setup.sh" | bash
+curl -LSs "https://raw.githubusercontent.com/Baka-SU/BakaSU/main/kernel/setup.sh" | bash
 ```
+
+Then,choose **one of the following methods** to integrate BakaSU into your kernel:
 
 ### Manual hooks
 

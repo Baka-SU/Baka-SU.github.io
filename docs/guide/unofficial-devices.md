@@ -13,7 +13,7 @@ This page is intended only to help you find the source code/project correspondin
 :::
 
 ::: info
-You can [submit a issue](https://github.com/BakaSU/BakaSU.github.io/issues) to the document repo to add devices you maintaining.
+You can [submit a issue](https://github.com/Baka-SU/BakaSU.github.io/issues) to the document repo to add devices you maintaining.
 :::
 
 <!-- devices: repos.json -->
