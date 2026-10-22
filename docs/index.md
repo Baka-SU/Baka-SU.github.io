@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: "BakaSU"
-  text: "A more stable fork of SukiSU"
+  text: "Baka in everywhere!"
   tagline: "KernelSU-based ROOT with enhanced Non-GKI compatibility, minimal hooks, and multi-manager support."
   image:
     src: /logo.svg
@@ -14,7 +14,7 @@ hero:
       link: /guide/install
     - theme: alt
       text: GitHub
-      link: https://github.com/BakaSU/BakaSU
+      link: https://github.com/Baka-SU/BakaSU
     - theme: alt
       text: About
       link: /guide/introduce
@@ -28,10 +28,10 @@ features:
     details: Compatible with the latest scope-minimized hooks. No need to manually select hooks anymore.
     link: ./guide/manual-integrate.md
   - title: Multi-Manager Support
-    details: BakaSU Kernel supports KernelSU/MKSU/RKSU/SukiSU Ultra's manager by default.
+    details: BakaSU Kernel supports KernelSU/KowSU's manager by default.
   - title: Enhanced Security
     details: Improved security measures with better module isolation and permission handling.
   - title: Active Community
     details: Join our growing community on Telegram for support, updates, and discussions.
-    link: https://t.me/BAKASU_grp
+    link: https://t.me/BakaSU_grp
 ---

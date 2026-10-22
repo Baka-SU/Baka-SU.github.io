@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "BakaSU"
-  text: "一个更加稳定的SukiSU分支"
-  tagline: "让SukiSU再次伟大！"
+  text: "全世界都是Baka!"
+  tagline: "一个基于KernelSU的ROOT方案,有着Non-GKI内核的兼容性，支持多管理器"
   image:
     src: /logo.svg
     alt: BakaSU Logo
@@ -14,7 +14,7 @@ hero:
       link: ./guide/install
     - theme: alt
       text: GitHub
-      link: https://github.com/BakaSU/BakaSU
+      link: https://github.com/Baka-SU/BakaSU
     - theme: alt
       text: 关于项目
       link: ./guide/introduce
@@ -28,10 +28,10 @@ features:
     details: 兼容当前最新的最小化钩子方案，无需手动选择 hook。
     link: ./guide/manual-integrate.md
   - title: 多 KernelSU 管理器支持
-    details: BakaSU 内核默认支持 KernelSU/MKSU/RKSU及SukiSU Ultra 管理器
+    details: BakaSU 内核默认支持 KernelSU/KowSU 管理器
   - title: 增强安全性
     details: 改进的安全措施，更好的模块隔离和权限处理机制。
   - title: 活跃的社区
     details: 加入我们在 Telegram 上不断壮大的社区，获取支持、更新和讨论。
-    link: https://t.me/BAKASU_grp
+    link: https://t.me/BakaSU_grp
 ---
