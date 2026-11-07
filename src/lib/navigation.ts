@@ -1,14 +1,19 @@
-import routes from "../../.generated/routes.json";
-import generatedNavigation from "../../.generated/navigation.json";
+import { getPages, docMeta, isChinese, pagePath } from "./docs";
+import { buildNavigation } from "./navigation-tree.mjs";
 export { topNavigation } from "./top-navigation";
 export type Language = "en" | "zh";
 export const prefix = (lang: Language) => (lang === "zh" ? "/zh-Hans" : "");
+
+const pages = await getPages();
+// Every published route, used to link a page to its translation only when one exists.
+export const routes = new Set(["/", "/zh-Hans", ...pages.map((page) => pagePath(page.id))]);
+
 export const href = (path: string, lang: Language) =>
   path === "/"
     ? lang === "zh"
       ? "/zh-Hans"
       : "/"
-    : lang === "zh" && !routes.includes(`/zh-Hans${path === "/" ? "" : path}`)
+    : lang === "zh" && !routes.has(`/zh-Hans${path === "/" ? "" : path}`)
       ? path
       : `${prefix(lang)}${path}`;
 export interface NavItem {
@@ -17,7 +22,15 @@ export interface NavItem {
   collapsed?: boolean;
   items?: NavItem[];
 }
-export const navigation = generatedNavigation as NavItem[];
+export const navigation: NavItem[] = buildNavigation(
+  pages.map((page) => ({
+    path: docMeta(page).path,
+    title: docMeta(page).title,
+    zh: isChinese(page),
+    hidden: !page.data.nav || page.data.layout === "page",
+    ...page.data.sidebar,
+  })),
+);
 function flatten(items: NavItem[]): { path: string; label: [string, string] }[] {
   return items.flatMap((item) => [
     ...(item.path ? [{ path: item.path, label: item.title }] : []),

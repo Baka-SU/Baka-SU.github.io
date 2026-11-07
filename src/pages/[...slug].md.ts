@@ -1,16 +1,11 @@
 import { getCollection } from "astro:content";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import type { APIRoute } from "astro";
+import { portableMarkdown } from "../lib/docs";
+
 export async function getStaticPaths() {
-  const docs = await getCollection("docs", ({ data }) => !data.part);
-  return [
-    ...docs.map((entry) => ({ params: { slug: entry.id } })),
-    { params: { slug: "index" } },
-    { params: { slug: "zh-Hans/index" } },
-  ];
+  return (await getCollection("docs")).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
-export const GET: APIRoute = ({ params }) =>
-  new Response(readFileSync(resolve(".generated/markdown", `${params.slug}.md`), "utf8"), {
+export const GET: APIRoute = ({ props }) =>
+  new Response(portableMarkdown(props.entry), {
     headers: { "Content-Type": "text/markdown; charset=utf-8" },
   });

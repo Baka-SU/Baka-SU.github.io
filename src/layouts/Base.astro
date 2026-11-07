@@ -1,5 +1,4 @@
 ---
-import routes from '../../.generated/routes.json';
 import Icon from '../components/Icon.astro';
 import Header from '../components/Header.astro';
 import Search from '../components/Search.astro';
@@ -7,7 +6,7 @@ import '../styles/global.css';
 import '@fontsource-variable/inter/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import '@fontsource-variable/noto-sans-sc/wght.css';
-import { breadcrumbItems, type Language } from '../lib/navigation';
+import { breadcrumbItems, routes, type Language } from '../lib/navigation';
 interface Props { title: string; description: string; lang?: Language; path?: string; docs?: boolean; noindex?: boolean }
 const { title, description, lang = 'en', path = '/', docs = false, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site);
@@ -28,8 +27,8 @@ const schema = { '@context': 'https://schema.org', '@graph': [
     <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title><meta name="description" content={description} /><meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonical} />
-    {routes.includes(path === '/' ? '/' : path) && <link rel="alternate" hreflang="en" href={new URL(path, Astro.site)} />}
-    {routes.includes(`/zh-Hans${path === '/' ? '' : path}`) && <link rel="alternate" hreflang="zh-CN" href={new URL(`/zh-Hans${path === '/' ? '' : path}`, Astro.site)} />}
+    {routes.has(path === '/' ? '/' : path) && <link rel="alternate" hreflang="en" href={new URL(path, Astro.site)} />}
+    {routes.has(`/zh-Hans${path === '/' ? '' : path}`) && <link rel="alternate" hreflang="zh-CN" href={new URL(`/zh-Hans${path === '/' ? '' : path}`, Astro.site)} />}
     <link rel="alternate" hreflang="x-default" href={new URL(path, Astro.site)} />
     {!noindex && <link rel="alternate" type="text/markdown" href={markdownPath} />}
     <link rel="describedby" href="/llms.txt" type="text/plain" />

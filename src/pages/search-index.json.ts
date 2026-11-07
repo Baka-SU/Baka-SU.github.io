@@ -1,23 +1,22 @@
 import type { APIRoute } from "astro";
-import { getCollection } from "astro:content";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-// Dev requests read the current generated Markdown, so edits are searchable immediately.
+import { getAllPortable } from "../lib/docs";
+
+// Dev-only: lets the search UI work without a Pagefind build. Production uses Pagefind.
 export const GET: APIRoute = async () => {
-  const pages = await getCollection("docs", ({ data }) => !data.part);
-  const entries = pages.map((page) => ({
-    url: `/${page.id}`,
-    lang: page.data.lang,
-    title: page.data.title,
-    text: readFileSync(resolve(".generated/markdown", `${page.id}.md`), "utf8")
-      .replace(/^:::[^\n]*$/gm, "")
-      .replace(/<!--[\s\S]*?-->/g, "")
-      .replace(/<[^>]*>/g, "")
-      .replace(/!?\[([^\]]+)\]\([^)]*\)/g, "$1")
-      .replace(/[#*`|]/g, "")
-      .replace(/\s+/g, " ")
-      .trim(),
-  }));
+  const entries = import.meta.env.DEV
+    ? (await getAllPortable()).map(({ content, path, lang }) => ({
+        url: path === "/" && lang === "zh" ? "/zh-Hans" : lang === "zh" ? `/zh-Hans${path}` : path,
+        lang,
+        title: content.match(/^# (.+)$/m)?.[1] ?? "",
+        text: content
+          .replace(/<!--[\s\S]*?-->/g, "")
+          .replace(/<[^>]*>/g, "")
+          .replace(/!?\[([^\]]+)\]\([^)]*\)/g, "$1")
+          .replace(/[#*`|]/g, "")
+          .replace(/\s+/g, " ")
+          .trim(),
+      }))
+    : [];
   return new Response(JSON.stringify(entries), {
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-cache" },
   });

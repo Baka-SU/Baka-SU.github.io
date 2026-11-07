@@ -29,6 +29,9 @@ const toc=headings.filter(h=>h.depth>=2&&h.depth<=4);
   </div>
   <template data-heading-icon><Icon name="link" size={16} /></template>
   <script>
+    // The browser patcher (Vue + WASM) is the only code that needs hydration.
+    const patcherSlot = document.querySelector<HTMLElement>('[data-patcher]');
+    if (patcherSlot) import('../scripts/patcher').then(({ mountPatcherWhenVisible }) => mountPatcherWhenVisible(patcherSlot));
     document.querySelector('[data-menu-toggle-secondary]')?.addEventListener('click',()=>document.querySelector<HTMLButtonElement>('[data-menu-toggle]')?.click());
     const links=document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
     const headings = Array.from(document.querySelectorAll<HTMLElement>('.prose h2[id],.prose h3[id],.prose h4[id]'));
