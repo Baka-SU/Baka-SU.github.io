@@ -299,5 +299,12 @@
         "kernel_name": "kernel_samsung_sm7325",
         "kernel_link": "https://github.com/GuitarHeroStyles/kernel_samsung_sm7325",
         "devices": "Samsung A52s 5G"
+    },
+    {
+        "maintainer": "avelith07",
+        "maintainer_link": "https://github.com/avelith07",
+        "kernel_name": "android_kernel_realme_mt6785",
+        "kernel_link": "https://github.com/avelith07/android_kernel_realme_mt6785",
+        "devices": "Realme 6, 6i (Indian), 6s, 7, Narzo 20 Pro, Narzo 30 4G"
     }
 ]
