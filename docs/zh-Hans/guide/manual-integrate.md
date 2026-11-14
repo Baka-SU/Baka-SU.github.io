@@ -562,7 +562,7 @@ index a3bef5bd..0b116d7c 100644
 在内核未开启 `CONFIG_KALLSYMS_ALL` 配置下，BakaSU 将会检查此处每一条 export，如果缺少，将会**导致编译失败**
 :::
 
-### write_op export <Badge type="danger" text="必加"/>
+### write_op <Badge type="danger" text="必加"/>
 
 ```diff
 --- a/security/selinux/selinuxfs.c
@@ -576,7 +576,7 @@ index a3bef5bd..0b116d7c 100644
 
 在 `security/selinux/selinuxfs.c` 中找到 `write_op` 的定义，并将其前面的 `static` 关键字去掉。
 
-### sel_handle_status_ops export <Badge type="danger" text="必加"/>
+### sel_handle_status_ops <Badge type="danger" text="必加"/>
 
 ```diff
 --- a/security/selinux/selinuxfs.c
@@ -636,7 +636,49 @@ diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
 
 在 `security/selinux/ss/services.c` 中找到 `context_struct_compute_av` 的定义，并将其前面的 `static` 关键字去掉。
 
-### selinux_status_page & selinux_status_lock export <Badge type="warning" text="4.17- 按需添加"/>
+### inode_doinit_with_dentry <Badge type="danger" text="必加"/>
+
+```diff
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -XXXX,X +XXXX,X @@
+/* The inode's security attributes must be initialized before first use. */
+-static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dentry)
++int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dentry)
+```
+
+在 `security/selinux/hooks.c` 中找到 `inode_doinit_with_dentry` 的定义，并将其前面的 `static` 关键字去掉。
+
+### selinux_inode_setxattr <Badge type="danger" text="必加"/>
+
+```diff
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -XXXX,X +XXXX,X @@
+-static int selinux_inode_setxattr(struct dentry *dentry, const char *name,
++int selinux_inode_setxattr(struct dentry *dentry, const char *name,
+				  const void *value, size_t size, int flags)
+```
+
+### latest_granting <Badge type="warning" text="4.17- 必加"/>
+
+::: info
+在内核没有 `selinux_state` 结构体下，你需要对 `latest_granting`定义进行修改
+:::
+
+```diff
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+ * occurs.
+ */
+-static u32 latest_granting;
++u32 latest_granting;
+```
+
+在 `security/selinux/ss/services.c` 中找到 `latest_granting` 的定义，并将其前面的 `static` 关键字去掉。
+
+### selinux_status_page & selinux_status_lock <Badge type="warning" text="4.17- 按需添加"/>
 
 ::: info
 在内核没有 `selinux_state` 结构体下，你需要对`selinux_status_page` 和 `selinux_status_lock`定义进行修改
@@ -659,7 +701,7 @@ diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
 
 如果没有找到该定义，请忽略这一部分。
 
-### policy_rwlock export <Badge type="warning" text="4.17- 按需添加"/> {#policy-rwlock-export}
+### policy_rwlock <Badge type="warning" text="4.17- 按需添加"/> {#policy-rwlock-export}
 
 ::: info
 在内核没有 `selinux_state` 结构体下，你需要对`policy_rwlock`定义进行修改
@@ -686,7 +728,7 @@ index b818410d2418..ea2f3022744f 100644
 
 如果没有找到该定义，请忽略这一部分。
 
-### sel_mutex export <Badge type="warning" text="4.17- 按需添加"/> {#sel-mutex-export}
+### sel_mutex <Badge type="warning" text="4.17- 按需添加"/> {#sel-mutex-export}
 
 ::: info
 在内核没有 `selinux_state` 结构体下，你需要对`sel_mutex`定义进行修改
@@ -706,7 +748,7 @@ index b818410d2418..ea2f3022744f 100644
 
 如果没有找到该定义，请忽略这一部分。
 
-### selinux_ops export <Badge type="danger" text="4.2- 必加"/> {#selinux-ops-export}
+### selinux_ops <Badge type="danger" text="4.2- 必加"/> {#selinux-ops-export}
 
 ```diff
 --- a/security/selinux/hooks.c

@@ -563,7 +563,7 @@ You can choose enable `CONFIG_KALLSYMS_ALL` Kconfig to avoid these changes.
 When kernel does not enable `CONFIG_KALLSYMS_ALL` Kconfig, BakaSU will check every exports here, if any are missing, it will **cause compilation to fail**.
 :::
 
-### write_op export <Badge type="danger" text="Required"/>
+### write_op <Badge type="danger" text="Required"/>
 
 ```diff
 --- a/security/selinux/selinuxfs.c
@@ -577,7 +577,7 @@ When kernel does not enable `CONFIG_KALLSYMS_ALL` Kconfig, BakaSU will check eve
 
 Remove `static` from the definition of `write_op` in `security/selinux/selinuxfs.c`
 
-### sel_handle_status_ops export <Badge type="danger" text="Required"/>
+### sel_handle_status_ops <Badge type="danger" text="Required"/>
 
 ```diff
 --- a/security/selinux/selinuxfs.c
@@ -660,7 +660,49 @@ diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
 
 Remove `static` from the definition of `context_struct_compute_av` in `security/selinux/ss/services.c`
 
-### policy_rwlock export <Badge type="warning" text="4.17- Conditionally Required"/> {#policy-rwlock-export}
+### inode_doinit_with_dentry <Badge type="danger" text="必加"/>
+
+```diff
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -XXXX,X +XXXX,X @@
+/* The inode's security attributes must be initialized before first use. */
+-static int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dentry)
++int inode_doinit_with_dentry(struct inode *inode, struct dentry *opt_dentry)
+```
+Remove `static` from the definition of `inode_doinit_with_dentry` in `security/selinux/hooks.c`
+
+### selinux_inode_setxattr <Badge type="warning" text="必加"/>
+
+```diff
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -XXXX,X +XXXX,X @@
+-static int selinux_inode_setxattr(struct dentry *dentry, const char *name,
++int selinux_inode_setxattr(struct dentry *dentry, const char *name,
+				  const void *value, size_t size, int flags)
+```
+
+### latest_granting <Badge type="warning" text="4.17- 必加"/>
+
+::: info
+When kernel does not have `selinux_state` struct, You should modify the definition of `latest_granting`
+:::
+
+```diff
+--- a/security/selinux/ss/services.c
++++ b/security/selinux/ss/services.c
+@@ -XXXX,X +XXXX,X @@
+ * occurs.
+ */
+-static u32 latest_granting;
++u32 latest_granting;
+```
+
+Remove `static` from the definition of `latest_granting` in `security/selinux/ss/services.c`
+
+
+### policy_rwlock <Badge type="warning" text="4.17- Conditionally Required"/> {#policy-rwlock-export}
 
 ::: info
 When kernel does not have `selinux_state` struct, You should modify the definition of `policy_rwlock`
@@ -687,7 +729,7 @@ Remove `static` from the definition of `policy_rwlock` in `security/selinux/ss/s
 
 If this definition not found,please ignore this part.
 
-### sel_mutex export <Badge type="warning" text="4.17- Conditionally Required"/> {#sel-mutex-export}
+### sel_mutex <Badge type="warning" text="4.17- Conditionally Required"/> {#sel-mutex-export}
 
 ::: info
 When kernel does not have `selinux_state` struct, You should modify the definition of `policy_rwlock`
@@ -707,7 +749,7 @@ Remove `static` from the definition of `sel_mutex` in `security/selinux/selinuxf
 
 If this definition not found,please ignore this part.
 
-### selinux_ops export <Badge type="danger" text="4.2- Required"/> {#selinux-ops-export}
+### selinux_ops <Badge type="danger" text="4.2- Required"/> {#selinux-ops-export}
 
 ```diff
 --- a/security/selinux/hooks.c
@@ -718,6 +760,4 @@ If this definition not found,please ignore this part.
    .name =        "selinux",
 ```
 
-Remove `static` from the definition of `selinux_ops` in `security/selinux/selinuxfs.c`
-
-
+Remove `static` from the definition of `selinux_ops` in `security/selinux/hooks.c`
