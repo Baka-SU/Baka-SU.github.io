@@ -15,7 +15,7 @@
     "preview": "bun run docs:preview",
     "docs:preview": "astro preview",
     "check": "astro check",
-    "postinstall": "cargo install wasm-pack --version 0.15.0 --locked"
+    "postinstall": "cargo install wasm-pack --version 0.15.1 --locked"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "0.4.6",
