@@ -26,7 +26,7 @@
     "@fontsource-variable/noto-sans-sc": "^5.3.1",
     "@iconify-json/simple-icons": "1.2.101",
     "@iconify-json/tabler": "1.2.42",
-    "@tailwindcss/vite": "4.3.3",
+    "@tailwindcss/vite": "4.3.4",
     "astro": "7.4.2",
     "github-slugger": "2.0.0",
     "pagefind": "1.5.2",
