@@ -135,3 +135,6 @@ src/wasm/
 # Astro generated content and caches
 .astro/
 .firecrawl/
+
+# generated files
+.generated/*
