@@ -306,5 +306,12 @@
         "kernel_name": "android_kernel_realme_mt6785",
         "kernel_link": "https://github.com/avelith07/android_kernel_realme_mt6785",
         "devices": "Realme 6, 6i (Indian), 6s, 7, Narzo 20 Pro, Narzo 30 4G"
+    },
+    {
+        "maintainer": "EnderPhantomWing",
+        "maintainer_link": "https://github.com/EnderPhantomWing",
+        "kernel_name": "kernel_oppo_mt6833",
+        "kernel_link": "https://github.com/EnderPhantomWing/kernel_oppo_mt6833",
+        "devices": "OPPO A93s 5G (PFGM00, OP5231)"
     }
 ]
