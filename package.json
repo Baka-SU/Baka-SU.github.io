@@ -27,7 +27,7 @@
     "@iconify-json/simple-icons": "1.2.101",
     "@iconify-json/tabler": "1.2.42",
     "@tailwindcss/vite": "4.3.3",
-    "astro": "7.4.2",
+    "astro": "7.4.5",
     "github-slugger": "2.0.0",
     "pagefind": "1.5.2",
     "satteri": "0.10.5",
