@@ -12,7 +12,7 @@ Thank you to the people helping BakaSU grow.
 
 [喵喵机](https://github.com/originalFactor)
 
-Donated the resukisu.org domain
+Donated the bakasu.org domain
 
 ## Support BakaSU
 

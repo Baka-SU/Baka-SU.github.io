@@ -12,7 +12,7 @@ layout: page
 
 [喵喵机](https://github.com/originalFactor)
 
-捐赠了 resukisu.org 域名
+捐赠了 bakasu.org 域名
 
 ## 支持 BakaSU
 
