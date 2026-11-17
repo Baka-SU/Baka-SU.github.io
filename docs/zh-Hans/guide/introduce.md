@@ -6,12 +6,8 @@ sidebar: { "label": "关于 BakaSU", "order": 10, "group": false }
 
 ## 什么是 BakaSU? {#what-is-BakaSU}
 
-一个SukiSU Ultra的下游fork，移除一些已经过时或者不需要的东西
+一个SukiSU Nova（原SukiSU Ultra）的下游fork,但更新跟随[`tiann/KernelSU`](https://github.com/tiann/KernelSU)
 
 ## 项目目的 {#the-aim}
 
-让SukiSU变得稳定下来，就这样
-
-## 为什么会创建这个项目？{#why}
-
-由于 <mark>ShirkNeko的代码质量及commit习惯问题</mark>，且近段时间SukiSU出现的bug很多，我们**难以忍受**，便创建了这个项目
+尽可能保持整洁和简易构建，同时保持新旧内核兼容性
