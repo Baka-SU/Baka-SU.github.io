@@ -101,10 +101,10 @@ For this hook, different kernel versions are inconsistent, so it is explained se
 ::: code-group
 
 ```diff [3.14+]
-diff --git a/exec.c b/exec.c
+diff --git a/fs/exec.c b/fs/exec.c
 index 5344364..cc612f0 100644
---- a/exec.c
-+++ b/exec.c
+--- a/fs/exec.c
++++ b/fs/exec.c
 @@ -1703,6 +1703,15 @@ static int exec_binprm(struct linux_binprm *bprm)
  	return ret;
  }
@@ -148,12 +148,12 @@ index 5344364..cc612f0 100644
 ```
 
 ```diff [3.14-]
-diff --git a/exec.c b/exec.c
+diff --git a/fs/exec.c b/fs/exec.c
 old mode 100755
 new mode 100644
 index 7ea097f..591dc94
---- a/exec.c
-+++ b/exec.c
+--- a/fs/exec.c
++++ b/fs/exec.c
 @@ -1443,6 +1443,15 @@ static int exec_binprm(struct linux_binprm *bprm)
  	return ret;
  }
