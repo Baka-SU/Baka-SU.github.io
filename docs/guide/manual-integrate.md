@@ -126,7 +126,7 @@ index 5344364..cc612f0 100644
  	int retval;
  
 +#ifdef CONFIG_KSU_MANUAL_HOOK
-+	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags)
++	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
 +#endif
 +
  	if (IS_ERR(filename))
@@ -138,7 +138,7 @@ index 5344364..cc612f0 100644
  out_ret:
 +	
 +#ifdef CONFIG_KSU_MANUAL_HOOK
-+	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval)
++	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval);
 +#endif
 +
  	putname(filename);
@@ -164,7 +164,7 @@ index 7ea097f..591dc94
 +				void *argv, void *envp, int *flags);
 +__attribute__((hot))
 +extern int ksu_handle_post_execve(int *fd, const char *filename,
-+				void *argv, void *envp, int *flags, int *retval)
++				void *argv, void *envp, int *flags, int *retval);
 +#endif
 +
  /*
@@ -660,7 +660,7 @@ diff --git a/security/selinux/ss/services.c b/security/selinux/ss/services.c
 
 Remove `static` from the definition of `context_struct_compute_av` in `security/selinux/ss/services.c`
 
-### inode_doinit_with_dentry <Badge type="danger" text="必加"/>
+### inode_doinit_with_dentry <Badge type="danger" text="Required"/>
 
 ```diff
 --- a/security/selinux/hooks.c
@@ -672,7 +672,7 @@ Remove `static` from the definition of `context_struct_compute_av` in `security/
 ```
 Remove `static` from the definition of `inode_doinit_with_dentry` in `security/selinux/hooks.c`
 
-### selinux_inode_setxattr <Badge type="warning" text="必加"/>
+### selinux_inode_setxattr <Badge type="warning" text="Required"/>
 
 ```diff
 --- a/security/selinux/hooks.c
@@ -683,7 +683,7 @@ Remove `static` from the definition of `inode_doinit_with_dentry` in `security/s
 				  const void *value, size_t size, int flags)
 ```
 
-### latest_granting <Badge type="warning" text="4.17- 必加"/>
+### latest_granting <Badge type="warning" text="4.17- Required"/>
 
 ::: info
 When kernel does not have `selinux_state` struct, You should modify the definition of `latest_granting`
