@@ -672,7 +672,7 @@ Remove `static` from the definition of `context_struct_compute_av` in `security/
 ```
 Remove `static` from the definition of `inode_doinit_with_dentry` in `security/selinux/hooks.c`
 
-### selinux_inode_setxattr <Badge type="warning" text="Required"/>
+### selinux_inode_setxattr <Badge type="danger" text="Required"/>
 
 ```diff
 --- a/security/selinux/hooks.c
