@@ -148,10 +148,10 @@ index 5344364..cc612f0 100644
 ```
 
 ```diff [3.14-]
-diff --git a/exec.c b/exec.c
+diff --git a/fs/exec.c b/fs/exec.c
 index 7ea097f..591dc94
---- a/exec.c
-+++ b/exec.c
+--- a/fs/exec.c
++++ b/fs/exec.c
 @@ -1443,6 +1443,15 @@ static int exec_binprm(struct linux_binprm *bprm)
  	return ret;
  }
