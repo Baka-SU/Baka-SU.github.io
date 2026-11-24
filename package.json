@@ -18,7 +18,7 @@
     "postinstall": "cargo install wasm-pack --version 0.15.1 --locked"
   },
   "dependencies": {
-    "@astrojs/markdown-satteri": "0.4.6",
+    "@astrojs/markdown-satteri": "0.4.10",
     "@astrojs/sitemap": "3.7.4",
     "@astrojs/vue": "7.1.2",
     "@fontsource-variable/inter": "5.3.0",
