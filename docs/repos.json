@@ -313,5 +313,12 @@
         "kernel_name": "kernel_oppo_mt6833",
         "kernel_link": "https://github.com/EnderPhantomWing/kernel_oppo_mt6833",
         "devices": "OPPO A93s 5G (PFGM00, OP5231)"
+    },
+    {
+        "maintainer": "ozyern",
+        "maintainer_link": "https://github.com/ozyern",
+        "kernel_name": "Feather-Kernel-SM8350",
+        "kernel_link": "https://github.com/ozyern/Feather-Kernel-SM8350",
+        "devices": "OnePlus 9 and OnePlus 9 Pro "
     }
 ]
