@@ -320,5 +320,12 @@
         "kernel_name": "Feather-Kernel-SM8350",
         "kernel_link": "https://github.com/ozyern/Feather-Kernel-SM8350",
         "devices": "OnePlus 9 and OnePlus 9 Pro "
+    },
+    {
+        "maintainer": "Najip",
+        "maintainer_link": "https://github.com/Najip",
+        "kernel_name": "KernelSU_SUSFS_Samsung_SM-A325X",
+        "kernel_link": "https://github.com/Najip/KernelSU_SUSFS_Samsung_SM-A325X",
+        "devices": "Samsung Galaxy A32 4G (SM-A325F/M/N, MT6768), Aigis kernel 4.14 + SUSFS 2.4.0, tested on A325F running LumiROM 9"
     }
 ]
