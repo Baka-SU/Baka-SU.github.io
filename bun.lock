@@ -12,7 +12,7 @@
         "@fontsource-variable/jetbrains-mono": "5.3.0",
         "@fontsource-variable/noto-sans-sc": "^5.3.1",
         "@iconify-json/simple-icons": "1.2.101",
-        "@iconify-json/tabler": "1.2.42",
+        "@iconify-json/tabler": "1.2.43",
         "@tailwindcss/vite": "4.3.3",
         "astro": "7.4.10",
         "github-slugger": "2.0.0",
@@ -192,7 +192,7 @@
 
     "@iconify-json/simple-icons": ["@iconify-json/simple-icons@1.2.101", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-MXJkMZDancJ/9I+Bgdthi9kXvn3AwWStxoTHwEPwAFQ9kMLBASO1BSstg52fNtjXeizm1Wi91R+QnWxNGkWHPQ=="],
 
-    "@iconify-json/tabler": ["@iconify-json/tabler@1.2.42", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-fObaBh/H2zJphk3lS1dWPUf/buuGaCHQXnB4UYgKOPXQub5Ac1qEu0AHRj/0+E2FEl8pWfgM2xQWzfz7ffcY+A=="],
+    "@iconify-json/tabler": ["@iconify-json/tabler@1.2.43", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-EKhyOj6nASi25ZjuRpEhPL1fwiKVtg/e/VX6v6X3FPKpjG9og26ypW8ItnWYSTn6fdNuQe3VPeyuThWlP6QuWw=="],
 
     "@iconify/types": ["@iconify/types@2.0.0", "", {}, "sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg=="],
 
