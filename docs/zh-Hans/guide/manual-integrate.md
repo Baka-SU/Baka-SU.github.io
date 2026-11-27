@@ -126,7 +126,7 @@ index 5344364..cc612f0 100644
  	int retval;
  
 +#ifdef CONFIG_KSU_MANUAL_HOOK
-+	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags)
++	ksu_handle_execveat(&fd, &filename, &argv, &envp, &flags);
 +#endif
 +
  	if (IS_ERR(filename))
@@ -138,7 +138,7 @@ index 5344364..cc612f0 100644
  out_ret:
 +	
 +#ifdef CONFIG_KSU_MANUAL_HOOK
-+	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval)
++	ksu_handle_post_execveat(&fd, &filename, &argv, &envp, &flags, &retval);
 +#endif
 +
  	putname(filename);
